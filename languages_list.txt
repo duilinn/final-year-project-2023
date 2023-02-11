@@ -38,3 +38,11 @@ Early Irish
 Armenian
 Tocharian A
 Tocharian B
+Early Runic
+Mycenaean Greek
+Old Church Slavonic
+Old Prussian
+Lithuanian
+Norn
+Irish
+Welsh
