@@ -46,3 +46,5 @@ Lithuanian
 Norn
 Irish
 Welsh
+classical Latin
+Anglo-Norman

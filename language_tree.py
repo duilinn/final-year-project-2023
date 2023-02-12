@@ -1,4 +1,5 @@
 import re
+from entries import entries
 
 languages_list_path = "C:\\Users\\david\\TCD\\4th year\\final year project\\languages_list.txt"
 languages_list_file = open(languages_list_path, encoding='utf-8')
@@ -8,6 +9,11 @@ languages_list = languages_list_file.read().split('\n')
 
 
 #tree data structure for languages and language info
+def base_form(lang):
+    if lang in lang_dict:
+        return lang_dict[lang]
+    else:
+        return lang
 
 class Tree:
     def __init__(self, language, parent_language="", word = "", coords=[0,0]):
@@ -45,7 +51,7 @@ class Tree:
             #self.language, language,word))
 
 
-            if (language==self.language):
+            if (base_form(language)==self.language):
                 #print(prefix+"MATCH: adding to self {0}: {1}".format(self.language, word))
                 self.word = word
                 #print("adding")
@@ -56,7 +62,7 @@ class Tree:
                 for x in self.children:
                     x.add_word(language, word, level+1)
                     
-    def print_tree(self, current_level=0, lc=[],force_show = False):
+    def print_tree(self, current_level=0, lc=[],force_show = False, ancestor_langs=[]):
 
         #print this node
 
@@ -81,17 +87,16 @@ class Tree:
         for x in range(len(self.get_children())):
             new_lc = lc[:]
             new_lc.append(x == (number_of_children-1))
-            self.get_children()[x].print_tree(current_level+1, new_lc, force_show)
+            new_ancestor_langs = ancestor_langs[:]
+            new_ancestor_langs.append(self.language)
+
+            self.get_children()[x].print_tree(current_level+1, new_lc, force_show,new_ancestor_langs)
                 
 
 while(True):
     #choose English word to get its etymology
     chosen_word = input("Enter an English word: ")
-
-    word_path = "C:\\Users\\david\\TCD\\4th year\\final year project\\" + \
-        chosen_word + ".txt"
-    word_file = open(word_path, encoding='utf-8')
-    item = word_file.read()
+    full_item = entries[chosen_word]
 
     ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2])
     ie_tree.add_child("Proto-Germanic", "Proto-Indo-European",coords=[54.9, 9.2])
@@ -159,7 +164,7 @@ while(True):
     ie_tree.add_child("Proto-Slavic","Proto-Balto-Slavic")
     ie_tree.add_child("Old Church Slavonic","Proto-Slavic")
 
-    ie_tree.print_tree(0, [False], force_show=True)
+    #ie_tree.print_tree(0, [False], force_show=True)
 
     language_words_pairs = []
 
@@ -170,7 +175,13 @@ while(True):
     language_vs_word_positions = ""
     x = 0
 
+    #split item into origin and etymology
+    etymology_start = full_item.find("Etymology: ")
 
+    origin = full_item[8:etymology_start]
+    item = full_item[etymology_start + 11:]
+
+    print("Origin: V\n"+ origin +"\netymology: V\n"+item+"-----")
 
     #locate language-words pairs
 
@@ -193,7 +204,6 @@ while(True):
             language_vs_word_positions += "w"
             x += 1
 
-    #print("item:\n{0}\n\nlvw:\n{1}\n".format(item, language_vs_word_positions))
     #break up each language-words pair
 
     j = 0
@@ -211,6 +221,25 @@ while(True):
         while (j < len(item) and language_vs_word_positions[j] == "w"):
             if (item[j] not in punctuation): current_words += item[j]
             j += 1
+
+        key_words_that_remove = ["now chiefly","and further ", "plural",\
+                                 "inflected","now usually","in an isolated",\
+                                "apparently ","also ","and also ",\
+                                "although ", "10th ", "11th ", "12th ",\
+                                "13th ", "14th ", "15th ", "16th ",
+                                "17th ", "18th ", "19th ", "20th ",\
+                                "strong and ","or its ", "only attested",\
+                                "base ","alive","weak", "further etymology ",\
+                                "Further etymology ", "probably "]
+        
+        min_location = 10000
+        for key_word in key_words_that_remove:
+            location = current_words.find(key_word)
+            if location > -1 and location < min_location:
+                min_location = location
+        
+        if min_location < 10000:
+            current_words = current_words[0:min_location]
 
         current_language = current_language.strip()
         current_words = current_words.strip()
