@@ -11,7 +11,12 @@ German
 early Scandinavian
 Old Icelandic
 Norn (Orkney)
+Norn (Shetland)
+Orkney
+Shetland
+(Orkney)
 (Shetland)
+Norn
 Old Swedish
 Old Danish
 Swedish
@@ -43,7 +48,6 @@ Mycenaean Greek
 Old Church Slavonic
 Old Prussian
 Lithuanian
-Norn
 Irish
 Welsh
 classical Latin

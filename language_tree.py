@@ -7,6 +7,17 @@ languages_list = languages_list_file.read().split('\n')
 
 #print("-----\nfather_etymology = " + str(father_etymology) + "\n-----")
 
+lang_dict = {
+    "Early Runic" : "Old Norse",
+    "Early Scandinavian (runic: Sweden)" : "Old Norse",
+    "(Orkney)" : "Norn (Orkney)",
+    "(Shetland)" : "Norn (Shetland)",
+    "Orkney" : "Norn (Orkney)",
+    "Shetland" : "Norn (Shetland)",
+    "Norn Orkney" : "Norn (Orkney)",
+    "Norn Shetland" : "Norn (Shetland)",
+    "early Irish" : "Old Irish",
+}
 
 #tree data structure for languages and language info
 def base_form(lang):
@@ -33,7 +44,7 @@ class Tree:
 
         child = Tree(language, parent_language, word)
         if (parent_language==self.language):
-            #print(prefix+"MATCH: adding to self {0} -> {1}".format(self.language, language))
+            print(prefix+"MATCH: adding to self {0} -> {1}".format(self.language, language))
             self.children.append(child)
             #print("adding")
 
@@ -96,7 +107,10 @@ class Tree:
 while(True):
     #choose English word to get its etymology
     chosen_word = input("Enter an English word: ")
-    full_item = entries[chosen_word]
+    if chosen_word in entries:
+        full_item = entries[chosen_word]
+    else:
+        continue
 
     ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2])
     ie_tree.add_child("Proto-Germanic", "Proto-Indo-European",coords=[54.9, 9.2])
@@ -112,12 +126,14 @@ while(True):
     ie_tree.add_child("Middle High German", "Old High German",coords=[50.4,11.7])
     ie_tree.add_child("German", "Middle High German")
 
-    ie_tree.add_child("early Scandinavian", "Proto-Germanic")
-    ie_tree.add_child("Old Icelandic","early Scandinavian")
-    ie_tree.add_child("Norn", "early Scandinavian")
-    ie_tree.add_child("Old Swedish", "early Scandinavian")
+    ie_tree.add_child("Old Norse", "Proto-Germanic")
+    ie_tree.add_child("Old Icelandic","Old Norse")
+    ie_tree.add_child("Norn", "Old Norse")
+    ie_tree.add_child("Norn (Shetland)", "Old Norse")
+    ie_tree.add_child("Norn (Orkney)", "Old Norse")
+    ie_tree.add_child("Old Swedish", "Old Norse")
     ie_tree.add_child("Swedish", "Old Swedish")
-    ie_tree.add_child("Old Danish", "early Scandinavian")
+    ie_tree.add_child("Old Danish", "Old Norse")
     ie_tree.add_child("Danish", "Old Danish")
 
     ie_tree.add_child("Gothic", "Proto-Germanic")
@@ -132,6 +148,7 @@ while(True):
     ie_tree.add_child("classical Latin", "Proto-Indo-European")
     ie_tree.add_child("Old French","classical Latin")
     ie_tree.add_child("Middle French","Old French")
+    ie_tree.add_child("Anglo-Norman","Old French")
     ie_tree.add_child("Old Occitan","classical Latin")
     ie_tree.add_child("Occitan","Old Occitan")
     ie_tree.add_child("Catalan","classical Latin")
@@ -143,8 +160,8 @@ while(True):
 
     ie_tree.add_child("Proto-Celtic", "Proto-Indo-European")
     ie_tree.add_child("Gaulish","Proto-Celtic")
-    ie_tree.add_child("Early Irish","Proto-Celtic")
-    ie_tree.add_child("Irish","Early Irish")
+    ie_tree.add_child("Old Irish","Proto-Celtic")
+    ie_tree.add_child("Irish","Old Irish")
     ie_tree.add_child("Welsh","Proto-Celtic")
 
     ie_tree.add_child("Armenian","Proto-Indo-European")
@@ -189,9 +206,15 @@ while(True):
         lang_found = False
         
         for language in languages_list:
+            #print("{0}, {1}\t".format(x, language),end="")
             #if item.find(language) == x:
             indices = [index for index in range(len(item)) if item.startswith(language, index)]
+            #print("Found at indices {0}".format(str(indices)))
             if x in indices:
+                print("MATCH FOUND:\t",end="")
+                print("{0}, {1}\t".format(x, language),end="")
+                print("Found at indices {0}".format(str(indices)))
+            
                 lang_found = True
                 lang_length = len(language)
 
@@ -230,12 +253,16 @@ while(True):
                                 "17th ", "18th ", "19th ", "20th ",\
                                 "strong and ","or its ", "only attested",\
                                 "base ","alive","weak", "further etymology ",\
-                                "Further etymology ", "probably "]
+                                "Further etymology ", "probably ",\
+                                "‘to", "base as ", "definite form ",\
+                                "to ", "impersonal ", "organized"]
         
         min_location = 10000
         for key_word in key_words_that_remove:
+            #print("{0}:\t{1}".format(current_words, key_word))
             location = current_words.find(key_word)
             if location > -1 and location < min_location:
+                #print("FOUND")
                 min_location = location
         
         if min_location < 10000:
@@ -249,13 +276,16 @@ while(True):
         #fix nordic languages
 
 
-        #print("current_language, current_words = " + current_language + " | " + current_words + "\n")
+        print("current_language, current_words = " + current_language + " | " + current_words)
         language_words_pairs.append([current_language,current_words])
 
     language_words_pairs = [[x.strip(),y.strip()] for [x,y] in language_words_pairs]
+    language_words_pairs = [[x,y] for [x,y] in language_words_pairs if x != "" and y != ""]
 
+    print(str(language_words_pairs))
     #add words to language tree
     for [language_name, words] in language_words_pairs:
+        print("adding {0}, {1}".format(language_name, words))
         ie_tree.add_word(language_name, words)
 
     print ("\n#####################################\n")
