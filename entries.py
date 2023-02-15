@@ -42,4 +42,10 @@ Further etymology uncertain. Perhaps < any of three different Indo-European base
     """Origin: A borrowing from French. Etymon: French citee.
 Etymology: < Anglo-Norman citee, citté, cittee, ceté, cetee, sité, sitté, scité, seté, Anglo-Norman and Old French, Middle French cité (French cité ) a town, especially an important town (c1100; 10th cent. as ciutat ; mid 11th cent. as ciptet with reference to Rome; second half of the 12th cent. or earlier with reference to biblical places), the Judaeo-Christian heaven, regarded as a city (first half of the 12th cent., originally in cité de Deu : see City of God n.), the oldest or fortified part of a town (c1350), the inhabitants of a city collectively (although this meaning is apparently first attested later than in English: c1370), in Anglo-Norman also the historic central part of London (a1377 or earlier) < classical Latin cīvitāt- , cīvitās organized community, state, people living in a community, citizens of a state, state consisting of a city or of a city and surrounding district, town, rights of a citizen, citizenship, in post-classical Latin also Jerusalem (Vulgate), the Church, heaven (5th cent. in Augustine) < cīvis citizen (see civic adj.) + -tās (see -ty suffix1; compare -ity suffix).""",
 
+    "money":
+    """Origin: A borrowing from French. Etymons: French monai, monoie.
+Etymology: < Anglo-Norman monai, moné, monee, moneie, monoie, munee, munei and Old French, Middle French monoie, monnoie, moneie, monee, monae, monaye coin, mint (late 12th cent.; compare French monnaie change) < classical Latin monēta , originally the name of a goddess (in classical times regarded as identical with Juno) in whose temple at Rome money was coined, hence, a mint, money; further etymology uncertain, perhaps a foreign loanword, but associated (from ancient times) by popular etymology with monēre to warn, remind (see moneo n.). Compare Old Occitan moneda (c1145), Spanish moneda (1169), Catalan moneda (c1250), Portuguese moeda (1211), Italian moneta (1213 or earlier). Compare mint n.1
+
+[updated entry September 2002]
+"""
 }

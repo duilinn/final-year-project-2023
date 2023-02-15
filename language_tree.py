@@ -33,6 +33,7 @@ class Tree:
         self.word = word
         self.parent_language = parent_language
         self.tree_type = tree_type
+        self.first_word = False
 
     def get_children(self):
         return self.children
@@ -45,7 +46,7 @@ class Tree:
 
         child = Tree(language, parent_language, word, tree_type=self.tree_type)
         if (parent_language==self.language):
-            print(prefix+"MATCH: adding to self {0} -> {1}".format(self.language, language))
+            #print(prefix+"MATCH: adding to self {0} -> {1}".format(self.language, language))
             self.children.append(child)
             #print("adding")
 
@@ -54,8 +55,25 @@ class Tree:
             #language, parent_language, self.language))
             for x in self.children:
                 x.add_child(language, parent_language, word, level+1, tree_type=self.tree_type)
-        
-    def add_word(self, language, word="", level=0,tree_type="inherited"):
+
+    def remove_child(self, language):
+        child_found = False
+        new_children = self.children
+        current_index = 0
+        for child in self.children:
+            if child.language == language:
+                new_children = self.children[:current_index] + self.children[current_index+1:]
+                child_found = True
+            current_index += 1
+
+        if child_found == False:
+            for child in self.children:
+                child.remove_child(language)
+            
+        self.children = new_children
+
+    def add_word(self, language, word="", level=0,tree_type="inherited",first_word=False):
+            #print(str(first_word))
             prefix = ""
             for i in range(level): prefix += "\t"
 
@@ -65,16 +83,22 @@ class Tree:
 
             if (base_form(language)==self.language):
                 #print(prefix+"MATCH: adding to self {0}: {1}".format(self.language, word))
+                
+                #print("#\t\t\tadding {0}, lang: {1} first word: {2}".format(word,language,first_word))
+                if first_word:
+                    self.first_word = True
+
                 if self.word == "":
                     self.word = word
+
                 #print("adding")
 
             elif (len(self.children) > 0):
                 #print(prefix+"MISMATCH: l={0}|self={1}".format(\
                 #language, self.language))
                 for x in self.children:
-                    x.add_word(language, word, level+1,tree_type=tree_type)
-                    
+                    x.add_word(language, word, level+1,tree_type=tree_type,first_word=first_word)
+    
     def print_tree(self, current_level=0, lc=[],force_show = False, ancestor_langs=[]):
 
         #print this node
@@ -288,7 +312,7 @@ while(True):
         #fix nordic languages
 
 
-        print("current_language, current_words = " + current_language + " | " + current_words)
+        #print("current_language, current_words = " + current_language + " | " + current_words)
         language_words_pairs.append([current_language,current_words])
 
     language_words_pairs = [[x.strip(),y.strip()] for [x,y] in language_words_pairs]
@@ -297,10 +321,19 @@ while(True):
     print(str(language_words_pairs))
 
     #add words to language tree
+
     first_word = True
     for [language_name, words] in language_words_pairs:
-        print("adding {0}, {1}".format(language_name, words))
-        ie_tree.add_word(language_name, words, first_word)
+        #print("-----\nadding to tree {0}, {1}, {2}\n-----".format(language_name, words,first_word))
+        f = first_word
+        ie_tree.add_word(language_name, words, first_word=f)
+
+        #add english under the most recent source language
+        if f and this_tree_type == "borrowing":
+                ie_tree.remove_child("English")
+                ie_tree.add_child("English", language_name)
+                ie_tree.add_word("English", chosen_word, first_word = False)
+
         first_word = False
 
     print ("\n#####################################\n")
