@@ -27,22 +27,23 @@ def base_form(lang):
         return lang
 
 class Tree:
-    def __init__(self, language, parent_language="", word = "", coords=[0,0]):
+    def __init__(self, language, parent_language="", word = "", coords=[0,0],tree_type="inherited"):
         self.children = []
         self.language = language
         self.word = word
         self.parent_language = parent_language
+        self.tree_type = tree_type
 
     def get_children(self):
         return self.children
     
-    def add_child(self, language, parent_language="", word="", level=0,  coords=[0,0]):
+    def add_child(self, language, parent_language="", word="", level=0,  coords=[0,0],tree_type="inherited"):
         prefix = ""
         for i in range(level): prefix += "\t"
 
         #print(prefix+"self: {0}: adding child {1}|{2}|{3}".format(self.language, language,parent_language,word))
 
-        child = Tree(language, parent_language, word)
+        child = Tree(language, parent_language, word, tree_type=self.tree_type)
         if (parent_language==self.language):
             print(prefix+"MATCH: adding to self {0} -> {1}".format(self.language, language))
             self.children.append(child)
@@ -52,9 +53,9 @@ class Tree:
             #print(prefix+"MISMATCH: l={0}|par={1}|self={2}".format(\
             #language, parent_language, self.language))
             for x in self.children:
-                x.add_child(language, parent_language, word, level+1)
+                x.add_child(language, parent_language, word, level+1, tree_type=self.tree_type)
         
-    def add_word(self, language, word="", level=0):
+    def add_word(self, language, word="", level=0,tree_type="inherited"):
             prefix = ""
             for i in range(level): prefix += "\t"
 
@@ -64,14 +65,15 @@ class Tree:
 
             if (base_form(language)==self.language):
                 #print(prefix+"MATCH: adding to self {0}: {1}".format(self.language, word))
-                self.word = word
+                if self.word == "":
+                    self.word = word
                 #print("adding")
 
             elif (len(self.children) > 0):
                 #print(prefix+"MISMATCH: l={0}|self={1}".format(\
                 #language, self.language))
                 for x in self.children:
-                    x.add_word(language, word, level+1)
+                    x.add_word(language, word, level+1,tree_type=tree_type)
                     
     def print_tree(self, current_level=0, lc=[],force_show = False, ancestor_langs=[]):
 
@@ -112,7 +114,25 @@ while(True):
     else:
         continue
 
-    ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2])
+    #split item into origin and etymology
+    etymology_start = full_item.find("Etymology: ")
+
+    origin = full_item[8:etymology_start]
+    item = full_item[etymology_start + 11:]
+
+    #determine if word is inherited or borrowed
+
+    this_tree_type = ""
+    if origin.find("inherited") > -1:
+        this_tree_type = "inherited"
+    elif origin.find("borrowing") > -1:
+        this_tree_type = "borrowing"
+
+    print("{0} {1}".format(origin.find("inherited"),origin.find("borrowing")))
+    
+    print("Origin: V\n"+ origin +"\netymology: V\n"+item+"-----\n"+"tree_type: "+this_tree_type)
+
+    ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2], tree_type="inherited")
     ie_tree.add_child("Proto-Germanic", "Proto-Indo-European",coords=[54.9, 9.2])
 
     ie_tree.add_child("Old Frisian", "Proto-Germanic",coords=[53.35, 6.80])
@@ -191,14 +211,6 @@ while(True):
 
     language_vs_word_positions = ""
     x = 0
-
-    #split item into origin and etymology
-    etymology_start = full_item.find("Etymology: ")
-
-    origin = full_item[8:etymology_start]
-    item = full_item[etymology_start + 11:]
-
-    print("Origin: V\n"+ origin +"\netymology: V\n"+item+"-----")
 
     #locate language-words pairs
 
@@ -283,10 +295,13 @@ while(True):
     language_words_pairs = [[x,y] for [x,y] in language_words_pairs if x != "" and y != ""]
 
     print(str(language_words_pairs))
+
     #add words to language tree
+    first_word = True
     for [language_name, words] in language_words_pairs:
         print("adding {0}, {1}".format(language_name, words))
-        ie_tree.add_word(language_name, words)
+        ie_tree.add_word(language_name, words, first_word)
+        first_word = False
 
     print ("\n#####################################\n")
 
