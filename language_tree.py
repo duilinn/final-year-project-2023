@@ -1,5 +1,7 @@
 import re
 from entries import entries
+import lingtypology
+import folium
 
 languages_list_path = "C:\\Users\\david\\TCD\\4th year\\final year project\\languages_list.txt"
 languages_list_file = open(languages_list_path, encoding='utf-8')
@@ -8,15 +10,20 @@ languages_list = languages_list_file.read().split('\n')
 #print("-----\nfather_etymology = " + str(father_etymology) + "\n-----")
 
 lang_dict = {
-    "Early Runic" : "Old Norse",
-    "Early Scandinavian (runic: Sweden)" : "Old Norse",
-    "(Orkney)" : "Norn (Orkney)",
-    "(Shetland)" : "Norn (Shetland)",
-    "Orkney" : "Norn (Orkney)",
-    "Shetland" : "Norn (Shetland)",
-    "Norn Orkney" : "Norn (Orkney)",
-    "Norn Shetland" : "Norn (Shetland)",
-    "early Irish" : "Old Irish",
+    "Early Runic" : "Old Runic",
+    "Early Scandinavian (runic: Sweden)" : "Older Runic",
+    "(Orkney)" : "Old Norn",
+    "(Shetland)" : "Old Norn",
+    "Orkney" : "Old Norn",
+    "Shetland" : "Old Norn",
+    "Norn Orkney" : "Old Norn",
+    "Norn Shetland" : "Old Norn",
+    "Norn" : "Old Norn",
+    "early Irish": "Early Irish",
+    "Old Avestan": "Avestan",
+    "Younger Avestan": "Avestan",
+    "ancient Greek": "Ancient Greek",
+    "Armenian": "Eastern Armenian"
 }
 
 #tree data structure for languages and language info
@@ -24,7 +31,10 @@ def base_form(lang):
     if lang in lang_dict:
         return lang_dict[lang]
     else:
-        return lang
+        if len(lang) > 1: 
+            return lang[0].upper() + lang[1:]
+        else:
+            return lang
 
 class Tree:
     def __init__(self, language, parent_language="", word = "", coords=[0,0],tree_type="inherited"):
@@ -157,24 +167,22 @@ while(True):
     print("Origin: V\n"+ origin +"\netymology: V\n"+item+"-----\n"+"tree_type: "+this_tree_type)
 
     ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2], tree_type="inherited")
-    ie_tree.add_child("Proto-Germanic", "Proto-Indo-European",coords=[54.9, 9.2])
+    ie_tree.add_child("Proto-Germanic", "Proto-Indo-European")
 
-    ie_tree.add_child("Old Frisian", "Proto-Germanic",coords=[53.35, 6.80])
-    ie_tree.add_child("West Frisian", "Old Frisian",coords=[53.14, 5.86])
-    ie_tree.add_child("Old Dutch", "Proto-Germanic",coords=[52.16, 5.20])
-    ie_tree.add_child("Middle Dutch", "Old Dutch",coords=[51.66, 5.34])
-    ie_tree.add_child("Dutch", "Middle Dutch", coords=[52.00, 5.00])
-    ie_tree.add_child("Old Saxon", "Proto-Germanic",coords=[52.37, 9.72])
-    ie_tree.add_child("Middle Low German", "Old Saxon",coords=[53.14, 9.67])
-    ie_tree.add_child("Old High German","Proto-Germanic",coords=[49.8,10.0])
-    ie_tree.add_child("Middle High German", "Old High German",coords=[50.4,11.7])
+    ie_tree.add_child("Old Frisian", "Proto-Germanic")
+    ie_tree.add_child("West Frisian", "Old Frisian")
+    ie_tree.add_child("Old Dutch", "Proto-Germanic")
+    ie_tree.add_child("Middle Dutch", "Old Dutch")
+    ie_tree.add_child("Dutch", "Middle Dutch")
+    ie_tree.add_child("Old Saxon", "Proto-Germanic")
+    ie_tree.add_child("Middle Low German", "Old Saxon")
+    ie_tree.add_child("Old High German","Proto-Germanic")
+    ie_tree.add_child("Middle High German", "Old High German")
     ie_tree.add_child("German", "Middle High German")
 
     ie_tree.add_child("Old Norse", "Proto-Germanic")
     ie_tree.add_child("Old Icelandic","Old Norse")
-    ie_tree.add_child("Norn", "Old Norse")
-    ie_tree.add_child("Norn (Shetland)", "Old Norse")
-    ie_tree.add_child("Norn (Orkney)", "Old Norse")
+    ie_tree.add_child("Old Norn", "Old Norse")
     ie_tree.add_child("Old Swedish", "Old Norse")
     ie_tree.add_child("Swedish", "Old Swedish")
     ie_tree.add_child("Old Danish", "Old Norse")
@@ -187,28 +195,29 @@ while(True):
     ie_tree.add_child("Old Avestan", "Proto-Indo-Iranian")
     ie_tree.add_child("Younger Avestan", "Proto-Indo-Iranian")
 
-    ie_tree.add_child("ancient Greek", "Proto-Indo-European")
+    ie_tree.add_child("Ancient Greek", "Proto-Indo-European")
 
-    ie_tree.add_child("classical Latin", "Proto-Indo-European")
-    ie_tree.add_child("Old French","classical Latin")
+    ie_tree.add_child("Latin", "Proto-Indo-European")
+    ie_tree.add_child("Old French","Latin")
     ie_tree.add_child("Middle French","Old French")
+    ie_tree.add_child("French","Middle French")
     ie_tree.add_child("Anglo-Norman","Old French")
     ie_tree.add_child("Old Occitan","classical Latin")
     ie_tree.add_child("Occitan","Old Occitan")
-    ie_tree.add_child("Catalan","classical Latin")
-    ie_tree.add_child("Spanish","classical Latin")
-    ie_tree.add_child("Portuguese","classical Latin")
-    ie_tree.add_child("Italian","classical Latin")
+    ie_tree.add_child("Catalan","Latin")
+    ie_tree.add_child("Spanish","Latin")
+    ie_tree.add_child("Portuguese","Latin")
+    ie_tree.add_child("Italian","Latin")
 
     ie_tree.add_child("Oscan", "Proto-Indo-European")
 
     ie_tree.add_child("Proto-Celtic", "Proto-Indo-European")
     ie_tree.add_child("Gaulish","Proto-Celtic")
-    ie_tree.add_child("Old Irish","Proto-Celtic")
-    ie_tree.add_child("Irish","Old Irish")
+    ie_tree.add_child("Early Irish","Proto-Celtic")
+    ie_tree.add_child("Irish","Early Irish")
     ie_tree.add_child("Welsh","Proto-Celtic")
 
-    ie_tree.add_child("Armenian","Proto-Indo-European")
+    ie_tree.add_child("Eastern Armenian","Proto-Indo-European")
 
     ie_tree.add_child("Tocharian A","Proto-Indo-European")
     ie_tree.add_child("Tocharian B","Proto-Indo-European")
@@ -304,7 +313,7 @@ while(True):
         if min_location < 10000:
             current_words = current_words[0:min_location]
 
-        current_language = current_language.strip()
+        current_language = base_form(current_language.strip())
         current_words = current_words.strip()
         
         if len(current_words) > 0 and current_words[-1] == ",": current_words = current_words[:-1]
@@ -339,6 +348,35 @@ while(True):
     print ("\n#####################################\n")
 
     ie_tree.print_tree(force_show=False)
+
+    #displaying map
+
+    lang_names = (x[0] for x  in language_words_pairs)
+    lang_words = (x[1] for x  in language_words_pairs)
+
+    print("~~~~~")
+    for x in lang_names:
+        print(str(x), end=", ")
+
+    print("\n~~~~~\n")
+
+    for x in lang_words:
+        print(str(x), end=", ")
+
+    print("\n~~~~~\n")
+
+    coordinates = map(lingtypology.glottolog.get_coordinates, lang_names)
+
+    m = lingtypology.LingMap(lang_names)
+
+    # for coordinate_pair in coordinates:
+    #     folium.Marker([coordinate_pair[0], coordinate_pair[1]],
+    #           popup=folium.Popup('test popup',
+    #                              show=True, sticky=True)).add_to(m)
+
+    m.add_popups(lang_words)
+    m.create_map()
+    m.save("language_tree.html")
 
 """
 Etymology: Cognate with Old Frisian fader , feder (West Frisian

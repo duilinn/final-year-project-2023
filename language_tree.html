@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_ab78c781b2d8da861c0717b6fab84b50 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_ab78c781b2d8da861c0717b6fab84b50" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_ab78c781b2d8da861c0717b6fab84b50 = L.map(
+                "map_ab78c781b2d8da861c0717b6fab84b50",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 2,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+            L.control.scale().addTo(map_ab78c781b2d8da861c0717b6fab84b50);
+
+            
+
+        
+    
+            var tile_layer_2f47badb268d0b50d2127d4ef79977cd = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_ab78c781b2d8da861c0717b6fab84b50);
+        
+    
+            var feature_group_fb90f7676c79cb319712eb2a23fab2b1 = L.featureGroup(
+                {}
+            ).addTo(map_ab78c781b2d8da861c0717b6fab84b50);
+        
+    
+            var circle_marker_ff0923cb3254ed882c3886fb5708d784 = L.circleMarker(
+                [53.35, 6.8],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_5c6b18583eeba590615d8a2e9c57f830 = L.circleMarker(
+                [52.0, 5.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_aa76a1e4c6ed82c62274b40436311658 = L.circleMarker(
+                [52.37, 9.72],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_c1245e777ffa2c7a15a8176ddb6ae190 = L.circleMarker(
+                [48.649, 12.4676],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_7fff6dd82a33fcf598277a5867becc7d = L.circleMarker(
+                [59.800634, 17.389526],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_8ddaca43be57792a4cbe9be2f686743a = L.circleMarker(
+                [54.8655, 9.36284],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_5f6423c86f344fb614747cb4439699da = L.circleMarker(
+                [46.9304, 29.9786],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_bcf67711496e65d4a7dd3054d2dfb3f0 = L.circleMarker(
+                [20.0, 77.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_9ed7dd822f7b8136d78a6e908fb500e2 = L.circleMarker(
+                [48.0, 2.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_6b19209b2874da5d08743eb0fea4c5f4 = L.circleMarker(
+                [44.1415, 6.82979],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_c6772f9c97f05aa65c95c5ddf92eb4df = L.circleMarker(
+                [41.453, 1.569],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_2b7150f5d893597131976207ac5c6fbd = L.circleMarker(
+                [40.4414, -1.11788],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_c530b958247e3cfd684c5e90661cb86c = L.circleMarker(
+                [39.91, -8.1],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_abf7da6bfc65b9df53166471752577ad = L.circleMarker(
+                [43.0464, 12.6489],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_0a50e36266548347baf35e13c98510dd = L.circleMarker(
+                [53.0, -8.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#000000", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.049999999999999, "stroke": true, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+            var circle_marker_fbbe7d77a7aa3c55bf1ebe7e81d16485 = L.circleMarker(
+                [53.35, 6.8],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_15dba8a57e3ff9b86e7ef7b9854afb54 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3c11a3a98efb0d2831396270da2494a7 = $(`<div id="html_3c11a3a98efb0d2831396270da2494a7" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/oldf1241" onclick="this.target='_blank';">Old Frisian</a><br>fader , feder</div>`)[0];
+                popup_15dba8a57e3ff9b86e7ef7b9854afb54.setContent(html_3c11a3a98efb0d2831396270da2494a7);
+            
+        
+
+        circle_marker_fbbe7d77a7aa3c55bf1ebe7e81d16485.bindPopup(popup_15dba8a57e3ff9b86e7ef7b9854afb54)
+        ;
+
+        
+    
+    
+            var circle_marker_dd6b987b4430ef9650cd4848451d3f20 = L.circleMarker(
+                [52.0, 5.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_23ec49d0229e1be731b729738b0186db = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_08a0dbb3475234e44035788824021409 = $(`<div id="html_08a0dbb3475234e44035788824021409" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/dutc1256" onclick="this.target='_blank';">Dutch</a><br>vader</div>`)[0];
+                popup_23ec49d0229e1be731b729738b0186db.setContent(html_08a0dbb3475234e44035788824021409);
+            
+        
+
+        circle_marker_dd6b987b4430ef9650cd4848451d3f20.bindPopup(popup_23ec49d0229e1be731b729738b0186db)
+        ;
+
+        
+    
+    
+            var circle_marker_8ad03f7896abbe0b5449234c3eb288bb = L.circleMarker(
+                [52.37, 9.72],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_3ef146024cd0850a54e036e85e281d8f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_23a480c4060aff7ca743ba70d5ff1431 = $(`<div id="html_23a480c4060aff7ca743ba70d5ff1431" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/olds1250" onclick="this.target='_blank';">Old Saxon</a><br>fadar , fader</div>`)[0];
+                popup_3ef146024cd0850a54e036e85e281d8f.setContent(html_23a480c4060aff7ca743ba70d5ff1431);
+            
+        
+
+        circle_marker_8ad03f7896abbe0b5449234c3eb288bb.bindPopup(popup_3ef146024cd0850a54e036e85e281d8f)
+        ;
+
+        
+    
+    
+            var circle_marker_af26adca78251198b2eb747dc2375f1a = L.circleMarker(
+                [48.649, 12.4676],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_260fa5e43baf5df1372adab8f502360d = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_013478084be35557d953e9b6dd1a0aa6 = $(`<div id="html_013478084be35557d953e9b6dd1a0aa6" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/stan1295" onclick="this.target='_blank';">German</a><br>Vater</div>`)[0];
+                popup_260fa5e43baf5df1372adab8f502360d.setContent(html_013478084be35557d953e9b6dd1a0aa6);
+            
+        
+
+        circle_marker_af26adca78251198b2eb747dc2375f1a.bindPopup(popup_260fa5e43baf5df1372adab8f502360d)
+        ;
+
+        
+    
+    
+            var circle_marker_266de4ab3cd10339a52906dbefaf092f = L.circleMarker(
+                [59.800634, 17.389526],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_50f2db27c0c9130560fe76fbc6e332ab = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a1ce22b7909f90b4ae792da04a8bd731 = $(`<div id="html_a1ce22b7909f90b4ae792da04a8bd731" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/swed1254" onclick="this.target='_blank';">Swedish</a><br>fader</div>`)[0];
+                popup_50f2db27c0c9130560fe76fbc6e332ab.setContent(html_a1ce22b7909f90b4ae792da04a8bd731);
+            
+        
+
+        circle_marker_266de4ab3cd10339a52906dbefaf092f.bindPopup(popup_50f2db27c0c9130560fe76fbc6e332ab)
+        ;
+
+        
+    
+    
+            var circle_marker_6242bb130922d2637efe01ece1d53424 = L.circleMarker(
+                [54.8655, 9.36284],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_b5d4f8c575d05e1fc6de150348c4b172 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b7445df61704161f1e7acff3309756d5 = $(`<div id="html_b7445df61704161f1e7acff3309756d5" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/dani1285" onclick="this.target='_blank';">Danish</a><br>fader</div>`)[0];
+                popup_b5d4f8c575d05e1fc6de150348c4b172.setContent(html_b7445df61704161f1e7acff3309756d5);
+            
+        
+
+        circle_marker_6242bb130922d2637efe01ece1d53424.bindPopup(popup_b5d4f8c575d05e1fc6de150348c4b172)
+        ;
+
+        
+    
+    
+            var circle_marker_90c205defcb047a42777d697b5475e19 = L.circleMarker(
+                [46.9304, 29.9786],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_0f2840af18adfd1c6805b1321ae8b34d = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_17188c483f53875aa7c16426ee872939 = $(`<div id="html_17188c483f53875aa7c16426ee872939" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/goth1244" onclick="this.target='_blank';">Gothic</a><br>fadar</div>`)[0];
+                popup_0f2840af18adfd1c6805b1321ae8b34d.setContent(html_17188c483f53875aa7c16426ee872939);
+            
+        
+
+        circle_marker_90c205defcb047a42777d697b5475e19.bindPopup(popup_0f2840af18adfd1c6805b1321ae8b34d)
+        ;
+
+        
+    
+    
+            var circle_marker_30fa0da4e2ab91f0adefb882054862ea = L.circleMarker(
+                [20.0, 77.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_16c0277a442352d00b3f2b258f2db3a3 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8046ba49a69275ad6b9bcbed35828aab = $(`<div id="html_8046ba49a69275ad6b9bcbed35828aab" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/sans1269" onclick="this.target='_blank';">Sanskrit</a><br>pitṛ</div>`)[0];
+                popup_16c0277a442352d00b3f2b258f2db3a3.setContent(html_8046ba49a69275ad6b9bcbed35828aab);
+            
+        
+
+        circle_marker_30fa0da4e2ab91f0adefb882054862ea.bindPopup(popup_16c0277a442352d00b3f2b258f2db3a3)
+        ;
+
+        
+    
+    
+            var circle_marker_902dbe1a09ef866b2da79b77c0706804 = L.circleMarker(
+                [48.0, 2.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_ab7e5adbf64eefb991198883bc27b95a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_83f811915d5c216a3e49c0295e696137 = $(`<div id="html_83f811915d5c216a3e49c0295e696137" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/stan1290" onclick="this.target='_blank';">French</a><br>père</div>`)[0];
+                popup_ab7e5adbf64eefb991198883bc27b95a.setContent(html_83f811915d5c216a3e49c0295e696137);
+            
+        
+
+        circle_marker_902dbe1a09ef866b2da79b77c0706804.bindPopup(popup_ab7e5adbf64eefb991198883bc27b95a)
+        ;
+
+        
+    
+    
+            var circle_marker_a11cfa3f1398fcd8822f965fba8d4478 = L.circleMarker(
+                [44.1415, 6.82979],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_d0d376d54266b9d2b9a726a118372524 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_2c3a03c19fea152fb994a61a2d9be6af = $(`<div id="html_2c3a03c19fea152fb994a61a2d9be6af" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/occi1239" onclick="this.target='_blank';">Occitan</a><br>paire</div>`)[0];
+                popup_d0d376d54266b9d2b9a726a118372524.setContent(html_2c3a03c19fea152fb994a61a2d9be6af);
+            
+        
+
+        circle_marker_a11cfa3f1398fcd8822f965fba8d4478.bindPopup(popup_d0d376d54266b9d2b9a726a118372524)
+        ;
+
+        
+    
+    
+            var circle_marker_7697ef357d18391db63dc8a60a48eb00 = L.circleMarker(
+                [41.453, 1.569],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_945d4bfddada592659da3a959cb0517b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e0330292fdf8738367ff8bf50d17a158 = $(`<div id="html_e0330292fdf8738367ff8bf50d17a158" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/stan1289" onclick="this.target='_blank';">Catalan</a><br>pare</div>`)[0];
+                popup_945d4bfddada592659da3a959cb0517b.setContent(html_e0330292fdf8738367ff8bf50d17a158);
+            
+        
+
+        circle_marker_7697ef357d18391db63dc8a60a48eb00.bindPopup(popup_945d4bfddada592659da3a959cb0517b)
+        ;
+
+        
+    
+    
+            var circle_marker_ef5f2861fdd1273feb499219eeec2f53 = L.circleMarker(
+                [40.4414, -1.11788],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_6d448f7c6daf8dcac0ce754454b970de = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6f527bbdb9319beaa7117d7c062ee1be = $(`<div id="html_6f527bbdb9319beaa7117d7c062ee1be" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/stan1288" onclick="this.target='_blank';">Spanish</a><br>padre</div>`)[0];
+                popup_6d448f7c6daf8dcac0ce754454b970de.setContent(html_6f527bbdb9319beaa7117d7c062ee1be);
+            
+        
+
+        circle_marker_ef5f2861fdd1273feb499219eeec2f53.bindPopup(popup_6d448f7c6daf8dcac0ce754454b970de)
+        ;
+
+        
+    
+    
+            var circle_marker_4a1a68b9698b92f098bbc0ca061b1efc = L.circleMarker(
+                [39.91, -8.1],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_e4381e594c5b4f7674fbb0d3adddb54d = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0cce3b35c93d30f8258ea531b487f629 = $(`<div id="html_0cce3b35c93d30f8258ea531b487f629" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/port1283" onclick="this.target='_blank';">Portuguese</a><br>pãe</div>`)[0];
+                popup_e4381e594c5b4f7674fbb0d3adddb54d.setContent(html_0cce3b35c93d30f8258ea531b487f629);
+            
+        
+
+        circle_marker_4a1a68b9698b92f098bbc0ca061b1efc.bindPopup(popup_e4381e594c5b4f7674fbb0d3adddb54d)
+        ;
+
+        
+    
+    
+            var circle_marker_0aa821a61784210ac23fbdaa4c89c75f = L.circleMarker(
+                [43.0464, 12.6489],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_2a82ef73b6b2f752989a66153f1637a4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e442ac82db43910fc9eaaf8763b3e79e = $(`<div id="html_e442ac82db43910fc9eaaf8763b3e79e" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/ital1282" onclick="this.target='_blank';">Italian</a><br>padre</div>`)[0];
+                popup_2a82ef73b6b2f752989a66153f1637a4.setContent(html_e442ac82db43910fc9eaaf8763b3e79e);
+            
+        
+
+        circle_marker_0aa821a61784210ac23fbdaa4c89c75f.bindPopup(popup_2a82ef73b6b2f752989a66153f1637a4)
+        ;
+
+        
+    
+    
+            var circle_marker_0965017f9c9202bf511a9eca47c4f400 = L.circleMarker(
+                [53.0, -8.0],
+                {"bubblingMouseEvents": true, "color": "#000000", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e6194b", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": false, "weight": 1}
+            ).addTo(feature_group_fb90f7676c79cb319712eb2a23fab2b1);
+        
+    
+        var popup_7a690fa584fa5739a96699327ea56358 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_572e68bf4318ccca28ecf487c02196d7 = $(`<div id="html_572e68bf4318ccca28ecf487c02196d7" style="width: 100.0%; height: 100.0%;"><a href="https://glottolog.org/resource/languoid/id/oldi1245" onclick="this.target='_blank';">Early Irish</a><br>athair</div>`)[0];
+                popup_7a690fa584fa5739a96699327ea56358.setContent(html_572e68bf4318ccca28ecf487c02196d7);
+            
+        
+
+        circle_marker_0965017f9c9202bf511a9eca47c4f400.bindPopup(popup_7a690fa584fa5739a96699327ea56358)
+        ;
+
+        
+    
+</script>
+</html>
