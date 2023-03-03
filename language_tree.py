@@ -2,6 +2,7 @@ import re
 from entries import entries
 import lingtypology
 import folium
+import numbers
 
 languages_list_path = "C:\\Users\\david\\TCD\\4th year\\final year project\\languages_list.txt"
 languages_list_file = open(languages_list_path, encoding='utf-8')
@@ -23,9 +24,29 @@ lang_dict = {
     "Old Avestan": "Avestan",
     "Younger Avestan": "Avestan",
     "ancient Greek": "Ancient Greek",
-    "Armenian": "Eastern Armenian"
+    "Armenian": "Eastern Armenian",
+    "West Frisian": "Western Frisian",
+    "Old High German": "Old High German (ca. 750-1050)",
+    "classical Latin": "Latin",
+    "Gaulish": "Transalpine Gaulish",
+    "Tocharian A": "Tokharian A",
+    "Tocharian B": "Tokharian B"
 }
 
+extra_coords = {
+    "Old Dutch": (51.8,4.8),
+    "Middle Dutch": (51.7,5.0),
+    "Middle Low German": (52.4,10.1),
+    "Middle High German": (51.6,10.7),
+    "Early Scandinavian": (55.2,10.3),
+    "Old Icelandic": (64.0,-16.5),
+    "Old Norn": (59.3,-2.4),
+    "Old Swedish": (58.4,15.4),
+    "Old Danish": (55.4,9.4),
+    "Old French": (48.7, 1.0),
+    "Middle French": (48.3, 1.5),
+    "Oscan": (41.0, 15.7),
+}
 #tree data structure for languages and language info
 def base_form(lang):
     if lang in lang_dict:
@@ -44,7 +65,7 @@ class Tree:
         self.parent_language = parent_language
         self.tree_type = tree_type
         self.first_word = False
-
+        self.has_descendant_words = 0
     def get_children(self):
         return self.children
     
@@ -101,8 +122,6 @@ class Tree:
                 if self.word == "":
                     self.word = word
 
-                #print("adding")
-
             elif (len(self.children) > 0):
                 #print(prefix+"MISMATCH: l={0}|self={1}".format(\
                 #language, self.language))
@@ -121,7 +140,7 @@ class Tree:
             print("├───",end="")
             #else: print("├───",end="")
         
-            print(self.language,end="")# + " " + self.word)
+            print(self.language + "(" + str(self.has_descendant_words) + ")",end="")# + " " + self.word)
             if (self.word != ""): print(": " + self.word,end="")
             #print(".".join((["O" if x else "." for x in lc])))
             print()
@@ -139,6 +158,73 @@ class Tree:
 
             self.get_children()[x].print_tree(current_level+1, new_lc, force_show,new_ancestor_langs)
                 
+    def get_language(self, language_name, current_level=0):
+        for i in range(current_level): print("\t", end="")
+        #print("self name = {0}, language_name = {1}".format(self.language, language_name))
+        
+        #base case
+
+        if len(self.children) == 0:
+            if self.language == language_name:
+                return self
+            else:
+                return 0
+        
+        #recursive case
+
+        else:
+            if self.language == language_name:
+                return self
+            else:
+                result = 0
+                current_result = 0
+
+                for child in self.get_children():
+                    current_result = child.get_language(language_name, current_level+1)
+
+                    if current_result != 0:
+                        result = current_result
+                
+                return result
+
+        # current_result = self
+
+        # if self.language != language_name:
+        #     for i in range(current_level): print("\t", end="")
+        #     print("returning self")
+        # else:
+        #     result_in_children = False
+
+        #     for child in self.children:
+        #         for i in range(current_level): print("\t", end="")
+        #         print("going through children")
+
+        #         temp_result = child.get_language(language_name, current_level+1)
+        #     return result
+
+    def has_descendant_words(self):
+
+        #base case
+
+        if len(self.get_children()) == 0:
+            return self.word != ""
+        
+        #recursive case
+
+        else:
+            if self.word != "":
+                return True
+            else:
+                result = False
+                current_result = False
+
+                for child in self.get_children():
+                    current_result = child.has_descendant_words()
+
+                    if current_result == True:
+                        result = current_result
+
+                return result
 
 while(True):
     #choose English word to get its etymology
@@ -170,7 +256,7 @@ while(True):
     ie_tree.add_child("Proto-Germanic", "Proto-Indo-European")
 
     ie_tree.add_child("Old Frisian", "Proto-Germanic")
-    ie_tree.add_child("West Frisian", "Old Frisian")
+    ie_tree.add_child("Western Frisian", "Old Frisian")
     ie_tree.add_child("Old Dutch", "Proto-Germanic")
     ie_tree.add_child("Middle Dutch", "Old Dutch")
     ie_tree.add_child("Dutch", "Middle Dutch")
@@ -202,7 +288,7 @@ while(True):
     ie_tree.add_child("Middle French","Old French")
     ie_tree.add_child("French","Middle French")
     ie_tree.add_child("Anglo-Norman","Old French")
-    ie_tree.add_child("Old Occitan","classical Latin")
+    ie_tree.add_child("Old Occitan","Latin")
     ie_tree.add_child("Occitan","Old Occitan")
     ie_tree.add_child("Catalan","Latin")
     ie_tree.add_child("Spanish","Latin")
@@ -318,11 +404,14 @@ while(True):
         
         if len(current_words) > 0 and current_words[-1] == ",": current_words = current_words[:-1]
 
-        #fix nordic languages
-
 
         #print("current_language, current_words = " + current_language + " | " + current_words)
-        language_words_pairs.append([current_language,current_words])
+        language_already_in_pairs = False
+        for [x,y] in language_words_pairs:
+            if x == current_language:
+                language_already_in_pairs = True
+        if not language_already_in_pairs:
+            language_words_pairs.append([current_language,current_words])
 
     language_words_pairs = [[x.strip(),y.strip()] for [x,y] in language_words_pairs]
     language_words_pairs = [[x,y] for [x,y] in language_words_pairs if x != "" and y != ""]
@@ -347,12 +436,17 @@ while(True):
 
     print ("\n#####################################\n")
 
-    ie_tree.print_tree(force_show=False)
+    ie_tree.print_tree(force_show=True)
 
+    #testing get_language()
+
+    french = ie_tree.get_language("French")
+    french_parent = ie_tree.get_language(french.parent_language)
+    print("French = {0}, French.parent = {1}".format(french.language, french_parent.language))
     #displaying map
 
-    lang_names = (x[0] for x  in language_words_pairs)
-    lang_words = (x[1] for x  in language_words_pairs)
+    lang_names = list((x[0] for x  in language_words_pairs))
+    lang_words = list((x[1] for x  in language_words_pairs))
 
     print("~~~~~")
     for x in lang_names:
@@ -365,18 +459,68 @@ while(True):
 
     print("\n~~~~~\n")
 
-    coordinates = map(lingtypology.glottolog.get_coordinates, lang_names)
+    #create base folium map
+    m = folium.Map((0, 0), zoom_start=2)
 
-    m = lingtypology.LingMap(lang_names)
+    coordinates = list(map(lingtypology.glottolog.get_coordinates, lang_names))
 
-    # for coordinate_pair in coordinates:
-    #     folium.Marker([coordinate_pair[0], coordinate_pair[1]],
-    #           popup=folium.Popup('test popup',
-    #                              show=True, sticky=True)).add_to(m)
+    #add points on map
+    for i in range(len(coordinates)):
+        print("# {0} {1}".format(lang_names[i], coordinates[i]))
+    
+    #adding lines between points on map
 
-    m.add_popups(lang_words)
-    m.create_map()
+    for first_lang_index in range(len(lang_names)):
+
+
+        #print("########### L1 = {0}".format(lang_names[first_lang_index]),end="\n")
+        
+        if not ((coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
+           (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90):
+            coordinates[first_lang_index] = extra_coords[lang_names[first_lang_index]]
+        else:
+            folium.Marker((coordinates[first_lang_index][0], coordinates[first_lang_index][1]), \
+                          popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index])).add_to(m)
+
+        for second_lang_index in range(len(lang_names)):
+            #print("\tL2 = {0}".format(lang_names[second_lang_index]),end="\n")
+
+
+            #    print("~~~~~ {0} = {1} ~~~~~".format(ie_tree.get_language(lang_names[first_lang_index]), lang_names[second_lang_index]))
+            if ie_tree.get_language(lang_names[first_lang_index]) != 0 and \
+                 ie_tree.get_language(lang_names[first_lang_index]).parent_language == lang_names[second_lang_index]:
+                print("\t\tis parent")
+                if (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
+                    (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90 and \
+                    (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
+                    (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90:
+
+                    """print("\t\t\tis right coords")
+                    print("\t\t\tcoords1 = {0},{1}, coords2 = {2},{3}, li1 = {4}, li2 = {5}".format(coordinates[first_lang_index][0],\
+                                                                              coordinates[first_lang_index][1],\
+                                                                              coordinates[second_lang_index][0],\
+                                                                              coordinates[second_lang_index][1],\
+                                                                              first_lang_index, second_lang_index))"""
+                    trail_coordinates = []
+
+                    trail_coordinates.append((coordinates[first_lang_index][0], coordinates[first_lang_index][1]))
+                    trail_coordinates.append((coordinates[second_lang_index][0], coordinates[second_lang_index][1]))
+                        
+                    print("\t\t\ttrail_coordinates is now {0}, coordinates = {1}".format(trail_coordinates, list(coordinates)))
+                    folium.PolyLine(trail_coordinates, tooltip="Connections between languages").add_to(m)
+
+
+    print("lang_names length = {0}, lang_words length = {1}".format(len(lang_names), len(lang_words)))
+
     m.save("language_tree.html")
+
+    # #create lingtypology map
+    # m = lingtypology.LingMap(lang_names)
+    # m.add_popups(lang_words)
+    
+    # m.base_map = folium_map
+    # m.create_map()
+    # m.save("language_tree.html")
 
 """
 Etymology: Cognate with Old Frisian fader , feder (West Frisian
