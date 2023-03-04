@@ -11,8 +11,9 @@ languages_list = languages_list_file.read().split('\n')
 #print("-----\nfather_etymology = " + str(father_etymology) + "\n-----")
 
 lang_dict = {
-    "Early Runic" : "Old Runic",
-    "Early Scandinavian (runic: Sweden)" : "Older Runic",
+    "Early Runic" : "Proto-Norse",
+    "Early Scandinavian": "Proto-Norse",
+    "Early Scandinavian (runic: Sweden)" : "Proto-Norse",
     "(Orkney)" : "Old Norn",
     "(Shetland)" : "Old Norn",
     "Orkney" : "Old Norn",
@@ -30,7 +31,8 @@ lang_dict = {
     "classical Latin": "Latin",
     "Gaulish": "Transalpine Gaulish",
     "Tocharian A": "Tokharian A",
-    "Tocharian B": "Tokharian B"
+    "Tocharian B": "Tokharian B",
+    "Indo-European": "Proto-Indo-European",
 }
 
 extra_coords = {
@@ -38,7 +40,8 @@ extra_coords = {
     "Middle Dutch": (51.7,5.0),
     "Middle Low German": (52.4,10.1),
     "Middle High German": (51.6,10.7),
-    "Early Scandinavian": (55.2,10.3),
+    "Proto-Norse": (54.2,10.3),
+    "Old Norse": (55.2,10.3),
     "Old Icelandic": (64.0,-16.5),
     "Old Norn": (59.3,-2.4),
     "Old Swedish": (58.4,15.4),
@@ -46,6 +49,18 @@ extra_coords = {
     "Old French": (48.7, 1.0),
     "Middle French": (48.3, 1.5),
     "Oscan": (41.0, 15.7),
+
+    "Proto-Indo-European": (49.4, 34.2),
+    "Proto-Germanic": (54.3, 9.5),
+    "Proto-Indo-Iranian": (53.0, 64.8),
+    "Proto-Celtic": (47.6, 13.7),
+    "Mycenaean Greek": (37.5,23.1),
+    "Proto-Balto-Slavic": (54.3,26.9),
+    "Old Occitan": (45.8,2.7),
+    "Proto-Baltic": (55.5, 26.4),
+    "Proto-Slavic" : (50.6, 25.8),
+    "Anglo-Norman": (49.0, -0.2),
+    "Old Church Slavonic": (42.3, 22.4),
 }
 #tree data structure for languages and language info
 def base_form(lang):
@@ -65,7 +80,7 @@ class Tree:
         self.parent_language = parent_language
         self.tree_type = tree_type
         self.first_word = False
-        self.has_descendant_words = 0
+        #self.has_descendant_words = 0
     def get_children(self):
         return self.children
     
@@ -140,7 +155,7 @@ class Tree:
             print("├───",end="")
             #else: print("├───",end="")
         
-            print(self.language + "(" + str(self.has_descendant_words) + ")",end="")# + " " + self.word)
+            print(self.language + "(" + str(self.has_descendant_words()) + ")",end="")# + " " + self.word)
             if (self.word != ""): print(": " + self.word,end="")
             #print(".".join((["O" if x else "." for x in lc])))
             print()
@@ -266,7 +281,8 @@ while(True):
     ie_tree.add_child("Middle High German", "Old High German")
     ie_tree.add_child("German", "Middle High German")
 
-    ie_tree.add_child("Old Norse", "Proto-Germanic")
+    ie_tree.add_child("Proto-Norse", "Proto-Germanic")
+    ie_tree.add_child("Old Norse", "Proto-Norse")
     ie_tree.add_child("Old Icelandic","Old Norse")
     ie_tree.add_child("Old Norn", "Old Norse")
     ie_tree.add_child("Old Swedish", "Old Norse")
@@ -443,9 +459,30 @@ while(True):
     french = ie_tree.get_language("French")
     french_parent = ie_tree.get_language(french.parent_language)
     print("French = {0}, French.parent = {1}".format(french.language, french_parent.language))
+
+    #adding "hidden" parent languages to languages that have words
+
+    language_queue = [ie_tree]
+
+    while len(language_queue) > 0:
+        for x in language_queue:
+            print("{0}, {1}".format(x.language, x.word),end="\t")
+        print("\n")
+        if language_queue[0].has_descendant_words():
+            if language_queue[0].word == "":
+                print("adding {0}".format(language_queue[0].language))
+                language_words_pairs.append((base_form(language_queue[0].language), "-"))
+            
+            for child in language_queue[0].get_children():
+                print("appending {0}".format(child.language))
+                language_queue.append(child)
+
+        language_queue.pop(0)
+        
+
     #displaying map
 
-    lang_names = list((x[0] for x  in language_words_pairs))
+    lang_names = list((base_form(x[0]) for x  in language_words_pairs))
     lang_words = list((x[1] for x  in language_words_pairs))
 
     print("~~~~~")
@@ -463,11 +500,12 @@ while(True):
     m = folium.Map((0, 0), zoom_start=2)
 
     coordinates = list(map(lingtypology.glottolog.get_coordinates, lang_names))
-
-    #add points on map
-    for i in range(len(coordinates)):
-        print("# {0} {1}".format(lang_names[i], coordinates[i]))
     
+    #print language coordinates solely from glottolog
+
+    for i in range(len(coordinates)):
+        print("## {0} {1}".format(lang_names[i], coordinates[i]))
+
     #adding lines between points on map
 
     for first_lang_index in range(len(lang_names)):
@@ -478,9 +516,10 @@ while(True):
         if not ((coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
            (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90):
             coordinates[first_lang_index] = extra_coords[lang_names[first_lang_index]]
-        else:
-            folium.Marker((coordinates[first_lang_index][0], coordinates[first_lang_index][1]), \
-                          popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index])).add_to(m)
+            #add point on map
+
+        folium.Marker((coordinates[first_lang_index][0], coordinates[first_lang_index][1]), \
+                        popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index])).add_to(m)
 
         for second_lang_index in range(len(lang_names)):
             #print("\tL2 = {0}".format(lang_names[second_lang_index]),end="\n")
@@ -509,6 +548,11 @@ while(True):
                     print("\t\t\ttrail_coordinates is now {0}, coordinates = {1}".format(trail_coordinates, list(coordinates)))
                     folium.PolyLine(trail_coordinates, tooltip="Connections between languages").add_to(m)
 
+
+    #print full list of language coordinates
+ 
+    for i in range(len(coordinates)):
+        print("## {0} {1}".format(lang_names[i], coordinates[i]))
 
     print("lang_names length = {0}, lang_words length = {1}".format(len(lang_names), len(lang_words)))
 
