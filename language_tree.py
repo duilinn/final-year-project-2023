@@ -3,6 +3,7 @@ from entries import entries
 import lingtypology
 import folium
 import numbers
+import math
 
 languages_list_path = "C:\\Users\\david\\TCD\\4th year\\final year project\\languages_list.txt"
 languages_list_file = open(languages_list_path, encoding='utf-8')
@@ -36,24 +37,24 @@ lang_dict = {
 }
 
 extra_coords = {
-    "Old Dutch": (51.8,4.8),
-    "Middle Dutch": (51.7,5.0),
+    "Old Dutch": (52.8,5.8),
+    "Middle Dutch": (52.4,5.5),
     "Middle Low German": (52.4,10.1),
     "Middle High German": (51.6,10.7),
-    "Proto-Norse": (54.2,10.3),
+    "Proto-Norse": (58.2,10.3),
     "Old Norse": (55.2,10.3),
     "Old Icelandic": (64.0,-16.5),
     "Old Norn": (59.3,-2.4),
     "Old Swedish": (58.4,15.4),
     "Old Danish": (55.4,9.4),
-    "Old French": (48.7, 1.0),
-    "Middle French": (48.3, 1.5),
+    "Old French": (46.0, 3.0),
+    "Middle French": (47.0, 2.0),
     "Oscan": (41.0, 15.7),
 
     "Proto-Indo-European": (49.4, 34.2),
     "Proto-Germanic": (54.3, 9.5),
     "Proto-Indo-Iranian": (53.0, 64.8),
-    "Proto-Celtic": (47.6, 13.7),
+    "Proto-Celtic": (47.6, 11.7),
     "Mycenaean Greek": (37.5,23.1),
     "Proto-Balto-Slavic": (54.3,26.9),
     "Old Occitan": (45.8,2.7),
@@ -62,6 +63,29 @@ extra_coords = {
     "Anglo-Norman": (49.0, -0.2),
     "Old Church Slavonic": (42.3, 22.4),
 }
+
+def arrow_from_coords(coords, lang_names):
+    heading = math.atan2(coords[0][1]-coords[1][1], coords[0][0]-coords[1][0])
+    print("{0}, {1}".format(heading, str(lang_names)))
+    arrow_coords = []
+    arrow_coords.append(coords[0])
+    arrow_coords.append(coords[1])
+
+    sides_scale = (((coords[1][0]-coords[0][0])**2 + (coords[1][1]-coords[0][1])**2)**0.5) * 0.1
+    sides_angle = math.pi * 0.125# math.pi * 0.125#22.5
+
+    latC = sides_scale * math.cos(heading + sides_angle) + coords[1][0]
+    longC = sides_scale * math.sin(heading + sides_angle) + coords[1][1]
+
+    latD = sides_scale * math.cos(heading - sides_angle) + coords[1][0]
+    longD = sides_scale * math.sin(heading - sides_angle) + coords[1][1]
+
+    arrow_coords.append((latC, longC))
+    arrow_coords.append(coords[1])
+    arrow_coords.append((latD, longD))
+    
+    return arrow_coords
+
 #tree data structure for languages and language info
 def base_form(lang):
     if lang in lang_dict:
@@ -270,6 +294,7 @@ while(True):
     ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2], tree_type="inherited")
     ie_tree.add_child("Proto-Germanic", "Proto-Indo-European")
 
+    ie_tree.add_child("English", "Proto-Germanic")
     ie_tree.add_child("Old Frisian", "Proto-Germanic")
     ie_tree.add_child("Western Frisian", "Old Frisian")
     ie_tree.add_child("Old Dutch", "Proto-Germanic")
@@ -294,8 +319,7 @@ while(True):
 
     ie_tree.add_child("Proto-Indo-Iranian", "Proto-Indo-European")
     ie_tree.add_child("Sanskrit", "Proto-Indo-Iranian")
-    ie_tree.add_child("Old Avestan", "Proto-Indo-Iranian")
-    ie_tree.add_child("Younger Avestan", "Proto-Indo-Iranian")
+    ie_tree.add_child("Avestan", "Proto-Indo-Iranian")
 
     ie_tree.add_child("Ancient Greek", "Proto-Indo-European")
 
@@ -314,15 +338,15 @@ while(True):
     ie_tree.add_child("Oscan", "Proto-Indo-European")
 
     ie_tree.add_child("Proto-Celtic", "Proto-Indo-European")
-    ie_tree.add_child("Gaulish","Proto-Celtic")
+    ie_tree.add_child("Transalpine Gaulish","Proto-Celtic")
     ie_tree.add_child("Early Irish","Proto-Celtic")
     ie_tree.add_child("Irish","Early Irish")
     ie_tree.add_child("Welsh","Proto-Celtic")
 
     ie_tree.add_child("Eastern Armenian","Proto-Indo-European")
 
-    ie_tree.add_child("Tocharian A","Proto-Indo-European")
-    ie_tree.add_child("Tocharian B","Proto-Indo-European")
+    ie_tree.add_child("Tokharian A","Proto-Indo-European")
+    ie_tree.add_child("Tokharian B","Proto-Indo-European")
 
     ie_tree.add_child("Early Runic","Proto-Germanic")
 
@@ -429,6 +453,9 @@ while(True):
         if not language_already_in_pairs:
             language_words_pairs.append([current_language,current_words])
 
+    #add the original english word to the tree
+    language_words_pairs.append(["English", chosen_word])
+
     language_words_pairs = [[x.strip(),y.strip()] for [x,y] in language_words_pairs]
     language_words_pairs = [[x,y] for [x,y] in language_words_pairs if x != "" and y != ""]
 
@@ -447,7 +474,8 @@ while(True):
                 ie_tree.remove_child("English")
                 ie_tree.add_child("English", language_name)
                 ie_tree.add_word("English", chosen_word, first_word = False)
-
+        elif f:
+            ie_tree.add_word("English", chosen_word)
         first_word = False
 
     print ("\n#####################################\n")
@@ -508,10 +536,12 @@ while(True):
 
     #adding lines between points on map
 
+    print("lang_names = {0}".format(lang_names))
     for first_lang_index in range(len(lang_names)):
 
 
-        #print("########### L1 = {0}".format(lang_names[first_lang_index]),end="\n")
+        #print("##########################################################\n##########################################################\n\
+              ##########################################################\nL1 = {0}\n~~~~~~~~~~~~~~~~~~~~~~~\n".format(lang_names[first_lang_index]))
         
         if not ((coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
            (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90):
@@ -519,22 +549,28 @@ while(True):
             #add point on map
 
         folium.Marker((coordinates[first_lang_index][0], coordinates[first_lang_index][1]), \
-                        popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index])).add_to(m)
+                        popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index]), \
+                        icon=folium.DivIcon(\
+            html=f"""<div style="font-family: sans-serif; font-size: 12pt; color: black; width: 200px">{lang_words[first_lang_index]}</div>""")).add_to(m)
 
         for second_lang_index in range(len(lang_names)):
-            #print("\tL2 = {0}".format(lang_names[second_lang_index]),end="\n")
+            #print("L2 = {0}".format(lang_names[second_lang_index]))
+
+            if not ((coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
+            (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90):
+                coordinates[second_lang_index] = extra_coords[lang_names[second_lang_index]]
 
 
             #    print("~~~~~ {0} = {1} ~~~~~".format(ie_tree.get_language(lang_names[first_lang_index]), lang_names[second_lang_index]))
-            if ie_tree.get_language(lang_names[first_lang_index]) != 0 and \
-                 ie_tree.get_language(lang_names[first_lang_index]).parent_language == lang_names[second_lang_index]:
-                print("\t\tis parent")
+            if ie_tree.get_language(base_form(lang_names[second_lang_index])) != 0 and \
+                 ie_tree.get_language(base_form(lang_names[second_lang_index])).parent_language == lang_names[first_lang_index]:
+                #print("is parent {0} -> {1}".format(lang_names[first_lang_index], lang_names[second_lang_index]))
                 if (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
                     (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90 and \
                     (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
                     (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90:
 
-                    """print("\t\t\tis right coords")
+                    """print("is right coords")
                     print("\t\t\tcoords1 = {0},{1}, coords2 = {2},{3}, li1 = {4}, li2 = {5}".format(coordinates[first_lang_index][0],\
                                                                               coordinates[first_lang_index][1],\
                                                                               coordinates[second_lang_index][0],\
@@ -545,9 +581,15 @@ while(True):
                     trail_coordinates.append((coordinates[first_lang_index][0], coordinates[first_lang_index][1]))
                     trail_coordinates.append((coordinates[second_lang_index][0], coordinates[second_lang_index][1]))
                         
-                    print("\t\t\ttrail_coordinates is now {0}, coordinates = {1}".format(trail_coordinates, list(coordinates)))
-                    folium.PolyLine(trail_coordinates, tooltip="Connections between languages").add_to(m)
+                    #print("\t\t\ttrail_coordinates is now {0}, coordinates = {1}".format(trail_coordinates, list(coordinates)))
+                    folium.PolyLine(arrow_from_coords(trail_coordinates, [lang_names[first_lang_index], lang_names[second_lang_index]]), tooltip="Connections between languages").add_to(m)
+                else:
+                    print("({0}), ({1}))".format(str(coordinates[first_lang_index]), str(coordinates[second_lang_index])))
 
+            else:
+                pass#print("\n-----\nL1: {0}".format(lang_names[first_lang_index]), end="")
+                #print(", L2: {0}, ".format(lang_names[second_lang_index]), end="")
+                #print(", not parent, {0}\n--------------------------------------------------------\n".format( ie_tree.get_language(lang_names[second_lang_index])))
 
     #print full list of language coordinates
  
