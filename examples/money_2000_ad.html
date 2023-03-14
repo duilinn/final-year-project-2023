@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_cc4764a693ed34a90f66e76689b14c83 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_cc4764a693ed34a90f66e76689b14c83" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_cc4764a693ed34a90f66e76689b14c83 = L.map(
+                "map_cc4764a693ed34a90f66e76689b14c83",
+                {
+                    center: [0.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 2,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d83975fc3b2542c0baf935e9f74ab20a = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var marker_f5a679f7972a17b3e339223a0b8b85d6 = L.marker(
+                [49.0, -0.2],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_bc8c28ae4be6b76be22848c5293ef09c = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-style: italic;color: #c00; width: 200px\"\u003emonai, mon\u00e9, monee, moneie, monoie, munee, munei and\u003c/div\u003e"});
+            marker_f5a679f7972a17b3e339223a0b8b85d6.setIcon(div_icon_bc8c28ae4be6b76be22848c5293ef09c);
+        
+    
+        var popup_e2901f2c9e629ec91a9a1e9f3e42a6cd = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b4915d7d307c1febd349606546d72375 = $(`<div id="html_b4915d7d307c1febd349606546d72375" style="width: 100.0%; height: 100.0%;">Anglo-Norman: monai, moné, monee, moneie, monoie, munee, munei and</div>`)[0];
+                popup_e2901f2c9e629ec91a9a1e9f3e42a6cd.setContent(html_b4915d7d307c1febd349606546d72375);
+            
+        
+
+        marker_f5a679f7972a17b3e339223a0b8b85d6.bindPopup(popup_e2901f2c9e629ec91a9a1e9f3e42a6cd)
+        ;
+
+        
+    
+    
+            var poly_line_8421c7e651419e66f8f317f7c16d5ad4 = L.polyline(
+                [[49.0, -0.2], [53.0, -1.0], [52.59983351240628, -1.079163010345133], [53.0, -1.0], [52.66106286158469, -0.7730162644530612]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_8421c7e651419e66f8f317f7c16d5ad4.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_41f6f3a1fb1e1ddc51ddc1c7a4827f85 = L.marker(
+                [47.0, 2.0],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_5c1e795c55966b53773492f6a3cf1431 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-style: italic;color: #c00; width: 200px\"\u003emonoie, monnoie, moneie, monee, monae, monaye coin, mint late\u003c/div\u003e"});
+            marker_41f6f3a1fb1e1ddc51ddc1c7a4827f85.setIcon(div_icon_5c1e795c55966b53773492f6a3cf1431);
+        
+    
+        var popup_449937f165fa209bfab8722794ed886c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_059877b3a7e2bd3cc5eba37d7906e1f3 = $(`<div id="html_059877b3a7e2bd3cc5eba37d7906e1f3" style="width: 100.0%; height: 100.0%;">Middle French: monoie, monnoie, moneie, monee, monae, monaye coin, mint late</div>`)[0];
+                popup_449937f165fa209bfab8722794ed886c.setContent(html_059877b3a7e2bd3cc5eba37d7906e1f3);
+            
+        
+
+        marker_41f6f3a1fb1e1ddc51ddc1c7a4827f85.bindPopup(popup_449937f165fa209bfab8722794ed886c)
+        ;
+
+        
+    
+    
+            var poly_line_95d1d0cce2c597a16a6541c3d32ec50f = L.polyline(
+                [[47.0, 2.0], [48.0, 2.0], [47.90761204674887, 1.961731656763491], [48.0, 2.0], [47.90761204674887, 2.038268343236509]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_95d1d0cce2c597a16a6541c3d32ec50f.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e207fbdb8485aa5a89739f4f0e7c00c7 = L.marker(
+                [48.0, 2.0],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_eb8a8489a7b2b04be204d71e9d740d9e = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-weight: bold;color: #08c; width: 200px\"\u003emonnaie change\u003c/div\u003e"});
+            marker_e207fbdb8485aa5a89739f4f0e7c00c7.setIcon(div_icon_eb8a8489a7b2b04be204d71e9d740d9e);
+        
+    
+        var popup_c82600a425d41f02ecfe6bbc13734057 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5a7caa201dabf018eda32cb8ec1fd407 = $(`<div id="html_5a7caa201dabf018eda32cb8ec1fd407" style="width: 100.0%; height: 100.0%;">French: monnaie change</div>`)[0];
+                popup_c82600a425d41f02ecfe6bbc13734057.setContent(html_5a7caa201dabf018eda32cb8ec1fd407);
+            
+        
+
+        marker_e207fbdb8485aa5a89739f4f0e7c00c7.bindPopup(popup_c82600a425d41f02ecfe6bbc13734057)
+        ;
+
+        
+    
+    
+            var marker_9b2ae78c59badc842154f818db567f0c = L.marker(
+                [41.9026, 12.4502],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_8644b8d8e4fabce4d9952a202539abee = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-style: italic;color: #c00; width: 200px\"\u003emon\u0113ta , originally the name of a goddess in classical times regarded as identical with Juno in whose temple at Rome money was coined, hence, a mint, money\u003c/div\u003e"});
+            marker_9b2ae78c59badc842154f818db567f0c.setIcon(div_icon_8644b8d8e4fabce4d9952a202539abee);
+        
+    
+        var popup_ba4d3717a49b88c4793dd66a6ab964f8 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_641e152a1ead0e18e12151f1a0adb43a = $(`<div id="html_641e152a1ead0e18e12151f1a0adb43a" style="width: 100.0%; height: 100.0%;">Latin: monēta , originally the name of a goddess in classical times regarded as identical with Juno in whose temple at Rome money was coined, hence, a mint, money</div>`)[0];
+                popup_ba4d3717a49b88c4793dd66a6ab964f8.setContent(html_641e152a1ead0e18e12151f1a0adb43a);
+            
+        
+
+        marker_9b2ae78c59badc842154f818db567f0c.bindPopup(popup_ba4d3717a49b88c4793dd66a6ab964f8)
+        ;
+
+        
+    
+    
+            var poly_line_69532d003a937be03c5491362d2788f1 = L.polyline(
+                [[41.9026, 12.4502], [45.8, 2.7], [45.066803190774436, 3.451653980859185], [45.8, 2.7], [45.81305119122366, 3.749948062719125]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_69532d003a937be03c5491362d2788f1.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_6590f9af424513970117131c61d9fe5b = L.polyline(
+                [[41.9026, 12.4502], [40.4414, -1.11788], [40.05716933479014, 0.19156484388476103], [40.4414, -1.11788], [41.09562521979096, 0.07972943761038742]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_6590f9af424513970117131c61d9fe5b.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_56311f8912c14f772333533b1bca3174 = L.polyline(
+                [[41.9026, 12.4502], [41.453, 1.569], [41.07813212735661, 2.591497244035316], [41.453, 1.569], [41.91094312020681, 2.5570863497970473]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_56311f8912c14f772333533b1bca3174.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_9c202fbbb55c8742c58499204c9a39dc = L.polyline(
+                [[41.9026, 12.4502], [39.91, -8.1], [39.30767012846929, -6.125155582365587], [39.91, -8.1], [40.880514342827105, -6.277662583831723]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_9c202fbbb55c8742c58499204c9a39dc.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_f86a3f496a2dde85bb2d857d61241b36 = L.polyline(
+                [[41.9026, 12.4502], [43.0464, 12.6489], [42.94833057887245, 12.586771182695081], [43.0464, 12.6489], [42.93312273927026, 12.674313844682919]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_f86a3f496a2dde85bb2d857d61241b36.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_4b639b5724097be1bf24bf81b3436362 = L.polyline(
+                [[41.9026, 12.4502], [46.0, 3.0], [45.259806103095165, 3.716283926236544], [46.0, 3.0], [45.983093097602485, 4.029885345391088]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_4b639b5724097be1bf24bf81b3436362.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_df7c27c6eb11882b77643dcaceeced3d = L.marker(
+                [45.8, 2.7],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_361a670fcb5c1b4c6d61653b84de9633 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-style: italic;color: #c00; width: 200px\"\u003emoneda c1145\u003c/div\u003e"});
+            marker_df7c27c6eb11882b77643dcaceeced3d.setIcon(div_icon_361a670fcb5c1b4c6d61653b84de9633);
+        
+    
+        var popup_dd80f5b63270c67b39ec6e7c2c814fa4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d0b499e964cec0b59be115298cad3121 = $(`<div id="html_d0b499e964cec0b59be115298cad3121" style="width: 100.0%; height: 100.0%;">Old Occitan: moneda c1145</div>`)[0];
+                popup_dd80f5b63270c67b39ec6e7c2c814fa4.setContent(html_d0b499e964cec0b59be115298cad3121);
+            
+        
+
+        marker_df7c27c6eb11882b77643dcaceeced3d.bindPopup(popup_dd80f5b63270c67b39ec6e7c2c814fa4)
+        ;
+
+        
+    
+    
+            var marker_ac753ecc0b687e7a62635512263b30d7 = L.marker(
+                [40.4414, -1.11788],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_7c6a596f9697ac07e6032bd9c402fd3f = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-weight: bold;color: #08c; width: 200px\"\u003emoneda 1169\u003c/div\u003e"});
+            marker_ac753ecc0b687e7a62635512263b30d7.setIcon(div_icon_7c6a596f9697ac07e6032bd9c402fd3f);
+        
+    
+        var popup_1642b8046ad5794bb3eefe2699a47b9f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_568a9aa4a31b8efbf9c0e80a87fe6d7b = $(`<div id="html_568a9aa4a31b8efbf9c0e80a87fe6d7b" style="width: 100.0%; height: 100.0%;">Spanish: moneda 1169</div>`)[0];
+                popup_1642b8046ad5794bb3eefe2699a47b9f.setContent(html_568a9aa4a31b8efbf9c0e80a87fe6d7b);
+            
+        
+
+        marker_ac753ecc0b687e7a62635512263b30d7.bindPopup(popup_1642b8046ad5794bb3eefe2699a47b9f)
+        ;
+
+        
+    
+    
+            var marker_640496c9e2abe4f394d11a9412ccbb1f = L.marker(
+                [41.453, 1.569],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_7387edf479e80dca0c7928b08a0feca1 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-weight: bold;color: #08c; width: 200px\"\u003emoneda c1250\u003c/div\u003e"});
+            marker_640496c9e2abe4f394d11a9412ccbb1f.setIcon(div_icon_7387edf479e80dca0c7928b08a0feca1);
+        
+    
+        var popup_a3f2d36de5b8b20cdaf6a6e76372c610 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1fe2350d61fbba5825ae0242c053bb19 = $(`<div id="html_1fe2350d61fbba5825ae0242c053bb19" style="width: 100.0%; height: 100.0%;">Catalan: moneda c1250</div>`)[0];
+                popup_a3f2d36de5b8b20cdaf6a6e76372c610.setContent(html_1fe2350d61fbba5825ae0242c053bb19);
+            
+        
+
+        marker_640496c9e2abe4f394d11a9412ccbb1f.bindPopup(popup_a3f2d36de5b8b20cdaf6a6e76372c610)
+        ;
+
+        
+    
+    
+            var marker_ce95835ff1441c77201d3640d269a676 = L.marker(
+                [39.91, -8.1],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_891259afe735f61dd7a375124ad6d43a = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-weight: bold;color: #08c; width: 200px\"\u003emoeda 1211\u003c/div\u003e"});
+            marker_ce95835ff1441c77201d3640d269a676.setIcon(div_icon_891259afe735f61dd7a375124ad6d43a);
+        
+    
+        var popup_1fe2072e419ae465fb4851828c1c8f31 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ddec7f54e258f0d553674d75f2e9427e = $(`<div id="html_ddec7f54e258f0d553674d75f2e9427e" style="width: 100.0%; height: 100.0%;">Portuguese: moeda 1211</div>`)[0];
+                popup_1fe2072e419ae465fb4851828c1c8f31.setContent(html_ddec7f54e258f0d553674d75f2e9427e);
+            
+        
+
+        marker_ce95835ff1441c77201d3640d269a676.bindPopup(popup_1fe2072e419ae465fb4851828c1c8f31)
+        ;
+
+        
+    
+    
+            var marker_bd700c1a30cbbc329ec0060d1cff03bb = L.marker(
+                [43.0464, 12.6489],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_0a1879b4b48f7fa1ff27b3ce4167ed94 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-weight: bold;color: #08c; width: 200px\"\u003emoneta 1213 or earlier Compare mint n1\n\n[updated entry September 2002]\u003c/div\u003e"});
+            marker_bd700c1a30cbbc329ec0060d1cff03bb.setIcon(div_icon_0a1879b4b48f7fa1ff27b3ce4167ed94);
+        
+    
+        var popup_68d6502ce732117539418897033b72ac = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ad9101364a349fd66d6a161e28c8b12d = $(`<div id="html_ad9101364a349fd66d6a161e28c8b12d" style="width: 100.0%; height: 100.0%;">Italian: moneta 1213 or earlier Compare mint n1  [updated entry September 2002]</div>`)[0];
+                popup_68d6502ce732117539418897033b72ac.setContent(html_ad9101364a349fd66d6a161e28c8b12d);
+            
+        
+
+        marker_bd700c1a30cbbc329ec0060d1cff03bb.bindPopup(popup_68d6502ce732117539418897033b72ac)
+        ;
+
+        
+    
+    
+            var marker_408d80ca1661f7944aa4919e34867281 = L.marker(
+                [53.0, -1.0],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_fdb85e461b39ed46b46b1d29b8ba31a1 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-weight: bold;color: #08c; width: 200px\"\u003emoney\u003c/div\u003e"});
+            marker_408d80ca1661f7944aa4919e34867281.setIcon(div_icon_fdb85e461b39ed46b46b1d29b8ba31a1);
+        
+    
+        var popup_a369afc51b51b284b2bc914b278539da = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_177d0582d87ba3394dcc61d71d2e4274 = $(`<div id="html_177d0582d87ba3394dcc61d71d2e4274" style="width: 100.0%; height: 100.0%;">English: money</div>`)[0];
+                popup_a369afc51b51b284b2bc914b278539da.setContent(html_177d0582d87ba3394dcc61d71d2e4274);
+            
+        
+
+        marker_408d80ca1661f7944aa4919e34867281.bindPopup(popup_a369afc51b51b284b2bc914b278539da)
+        ;
+
+        
+    
+    
+            var marker_63b9cf1956da6809d913c95edb222bc0 = L.marker(
+                [49.4, 34.2],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_45085c80943e0eac0351921c74f4abc3 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-style: italic;color: #c00; width: 200px\"\u003e-\u003c/div\u003e"});
+            marker_63b9cf1956da6809d913c95edb222bc0.setIcon(div_icon_45085c80943e0eac0351921c74f4abc3);
+        
+    
+        var popup_1b1e0e5cc2f765365bf75a1dbaa8fe78 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e6531046210bb80f74f0c91b155ec4f6 = $(`<div id="html_e6531046210bb80f74f0c91b155ec4f6" style="width: 100.0%; height: 100.0%;">Proto-Indo-European: -</div>`)[0];
+                popup_1b1e0e5cc2f765365bf75a1dbaa8fe78.setContent(html_e6531046210bb80f74f0c91b155ec4f6);
+            
+        
+
+        marker_63b9cf1956da6809d913c95edb222bc0.bindPopup(popup_1b1e0e5cc2f765365bf75a1dbaa8fe78)
+        ;
+
+        
+    
+    
+            var poly_line_8af651a3a1de3e29a1a59b7263e140c1 = L.polyline(
+                [[49.4, 34.2], [41.9026, 12.4502], [41.762940628979585, 14.746532582202802], [41.9026, 12.4502], [43.427598252430435, 14.172706429039998]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_8af651a3a1de3e29a1a59b7263e140c1.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_de04edbf666763369b9ce1a5673380e7 = L.marker(
+                [46.0, 3.0],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_7f735a5f9f12bb3b4e2f49e787a9b88c = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 12pt; font-style: italic;color: #c00; width: 200px\"\u003e-\u003c/div\u003e"});
+            marker_de04edbf666763369b9ce1a5673380e7.setIcon(div_icon_7f735a5f9f12bb3b4e2f49e787a9b88c);
+        
+    
+        var popup_4c86339e329afe869032d1b98e37d26c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_53309150f293bc7efc961483c38005dc = $(`<div id="html_53309150f293bc7efc961483c38005dc" style="width: 100.0%; height: 100.0%;">Old French: -</div>`)[0];
+                popup_4c86339e329afe869032d1b98e37d26c.setContent(html_53309150f293bc7efc961483c38005dc);
+            
+        
+
+        marker_de04edbf666763369b9ce1a5673380e7.bindPopup(popup_4c86339e329afe869032d1b98e37d26c)
+        ;
+
+        
+    
+    
+            var poly_line_3c04fe6d355045a8823e056d52752d8d = L.polyline(
+                [[46.0, 3.0], [49.0, -0.2], [48.60037744188978, -0.019163579305915085], [49.0, -0.2], [48.845294838603444, 0.21044648011313877]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_3c04fe6d355045a8823e056d52752d8d.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_908072650033c6c50f1c3f3a089b7f40 = L.polyline(
+                [[46.0, 3.0], [47.0, 2.0], [46.869343703512364, 2.0541196100146197], [47.0, 2.0], [46.94588038998538, 2.1306562964876377]],
+                {"bubblingMouseEvents": true, "color": "#c88", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#c88", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            poly_line_908072650033c6c50f1c3f3a089b7f40.bindTooltip(
+                `<div>
+                     Connections between languages
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7992c07a47d4b91eaeb42291009e4820 = L.marker(
+                [55.0, -45.0],
+                {}
+            ).addTo(map_cc4764a693ed34a90f66e76689b14c83);
+        
+    
+            var div_icon_4da27235450ddda6e4d3f6fe1fe74f01 = L.divIcon({"className": "empty", "html": "\u003cdiv style=\"font-family: sans-serif; font-size: 32pt; color: #000; width: 500px\"\u003eCognates of \u0026quot;money\u0026quot; in 2000 AD\u003c/div\u003e"});
+            marker_7992c07a47d4b91eaeb42291009e4820.setIcon(div_icon_4da27235450ddda6e4d3f6fe1fe74f01);
+        
+</script>
+</html>

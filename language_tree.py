@@ -4,10 +4,18 @@ import lingtypology
 import folium
 import numbers
 import math
+import argparse
+import datetime
 
 languages_list_path = "C:\\Users\\david\\TCD\\4th year\\final year project\\languages_list.txt"
 languages_list_file = open(languages_list_path, encoding='utf-8')
 languages_list = languages_list_file.read().split('\n')
+
+debug = False
+print_tree = False
+
+date = datetime.date.today()
+current_year = int(date.strftime("%Y"))
 
 #print("-----\nfather_etymology = " + str(father_etymology) + "\n-----")
 
@@ -66,7 +74,7 @@ extra_coords = {
 
 def arrow_from_coords(coords, lang_names):
     heading = math.atan2(coords[0][1]-coords[1][1], coords[0][0]-coords[1][0])
-    print("{0}, {1}".format(heading, str(lang_names)))
+    if debug: print("{0}, {1}".format(heading, str(lang_names)))
     arrow_coords = []
     arrow_coords.append(coords[0])
     arrow_coords.append(coords[1])
@@ -109,7 +117,7 @@ def base_form(lang):
             return lang
 
 class Tree:
-    def __init__(self, language, parent_language="", word = "", coords=[0,0],tree_type="inherited",date_range=[-4500, 2000]):
+    def __init__(self, language, parent_language="", word = "", coords=[0,0],tree_type="inherited",date_range=[-4500, current_year]):
         self.children = []
         self.language = language
         self.word = word
@@ -122,7 +130,7 @@ class Tree:
     def get_children(self):
         return self.children
     
-    def add_child(self, language, parent_language="", word="", level=0,  coords=[0,0],tree_type="inherited", date_range=[-4500,2000]):
+    def add_child(self, language, parent_language="", word="", level=0,  coords=[0,0],tree_type="inherited", date_range=[-4500,current_year]):
         prefix = ""
         for i in range(level): prefix += "\t"
 
@@ -193,7 +201,8 @@ class Tree:
             print("├───",end="")
             #else: print("├───",end="")
         
-            print(self.language + "(" + str(self.has_descendant_words()) + ")",end="")# + " " + self.word)
+            #print(self.language + "(" + str(self.has_descendant_words()) + ")",end="")# + " " + self.word)
+            print(self.language, end="")
             if (self.word != ""): print(": " + self.word,end="")
             #print(".".join((["O" if x else "." for x in lc])))
             print()
@@ -279,256 +288,270 @@ class Tree:
 
                 return result
 
-while(True):
-    #choose English word to get its etymology
-    chosen_word = input("Enter an English word: ")
-    chosen_date = int(input("Enter a date (4500 BC to 2000 AD): "))
+parser = argparse.ArgumentParser("Argument parser.")
+parser.add_argument('word', help='OED headword from which a map will be produced')
+parser.add_argument("-y", "--year", help='Year number per ISO 8601')
+args = parser.parse_args()
 
-    if chosen_word in entries:
-        full_item = entries[chosen_word]
-    else:
-        continue
+if args.year:
+    chosen_year = int(args.year)
+else:
+    chosen_year = current_year
 
-    #split item into origin and etymology
-    etymology_start = full_item.find("Etymology: ")
+chosen_word = str(args.word)
 
-    origin = full_item[8:etymology_start]
-    item = full_item[etymology_start + 11:]
+if chosen_word in entries:
+    full_item = entries[chosen_word]
+    print("Word: {0}, year: {1}".format(chosen_word, chosen_year))
+else:
+    print("Word not found.")
 
-    #determine if word is inherited or borrowed
+#split item into origin and etymology
+etymology_start = full_item.find("Etymology: ")
 
-    this_tree_type = ""
-    if origin.find("inherited") > -1:
-        this_tree_type = "inherited"
-    elif origin.find("borrowing") > -1:
-        this_tree_type = "borrowing"
+origin = full_item[8:etymology_start]
+item = full_item[etymology_start + 11:]
 
-    print("{0} {1}".format(origin.find("inherited"),origin.find("borrowing")))
+#determine if word is inherited or borrowed
+
+this_tree_type = ""
+if origin.find("inherited") > -1:
+    this_tree_type = "inherited"
+elif origin.find("borrowing") > -1:
+    this_tree_type = "borrowing"
+
+if debug: print("{0} {1}".format(origin.find("inherited"),origin.find("borrowing")))
+
+if debug: print("Origin: V\n"+ origin +"\netymology: V\n"+item+"-----\n"+"tree_type: "+this_tree_type)
+
+print("Building tree... ", end="")
+
+ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2], tree_type="inherited", date_range=[-4500, -2500])
+ie_tree.add_child("Proto-Germanic", "Proto-Indo-European", date_range=[-2500, 500])
+
+ie_tree.add_child("English", "Proto-Germanic", date_range=[500, current_year])
+ie_tree.add_child("Old Frisian", "Proto-Germanic", date_range=[500, 1500])
+ie_tree.add_child("Western Frisian", "Old Frisian", date_range=[1500, current_year])
+ie_tree.add_child("Old Dutch", "Proto-Germanic", date_range=[500, 1150])    
+ie_tree.add_child("Middle Dutch", "Old Dutch", date_range=[1150, 1500])
+ie_tree.add_child("Dutch", "Middle Dutch", date_range=[1500, current_year])
+ie_tree.add_child("Old Saxon", "Proto-Germanic", date_range=[500, 1200])
+ie_tree.add_child("Middle Low German", "Old Saxon", date_range=[1200, 1500])
+ie_tree.add_child("Old High German","Proto-Germanic", date_range=[500, 1050])
+ie_tree.add_child("Middle High German", "Old High German", date_range=[1050, 1350])
+ie_tree.add_child("German", "Middle High German", date_range=[1350, current_year])
+
+ie_tree.add_child("Proto-Norse", "Proto-Germanic", date_range=[200, 800])
+ie_tree.add_child("Old Norse", "Proto-Norse", date_range=[800, 1400])
+ie_tree.add_child("Old Icelandic","Old Norse", date_range=[800, 1400])
+ie_tree.add_child("Old Norn", "Old Norse", date_range=[1400, 1850])
+ie_tree.add_child("Old Swedish", "Old Norse", date_range=[1225, 1526])
+ie_tree.add_child("Swedish", "Old Swedish", date_range=[1526, current_year])
+ie_tree.add_child("Old Danish", "Old Norse", date_range=[800, 1525])
+ie_tree.add_child("Danish", "Old Danish", date_range=[1525,current_year])
+
+ie_tree.add_child("Gothic", "Proto-Germanic", date_range=[200, 1000])
+
+ie_tree.add_child("Proto-Indo-Iranian", "Proto-Indo-European", date_range=[-2500, -2000])
+ie_tree.add_child("Sanskrit", "Proto-Indo-Iranian", date_range=[-1500, 1350])
+ie_tree.add_child("Avestan", "Proto-Indo-Iranian", date_range=[-2000, -1000])
+
+ie_tree.add_child("Ancient Greek", "Proto-Indo-European", date_range=[-1500, -300])
+
+ie_tree.add_child("Latin", "Proto-Indo-European", date_range=[-700, 700])
+ie_tree.add_child("Old French","Latin", date_range=[700, 1300])
+ie_tree.add_child("Middle French","Old French", date_range=[1300, 1600])
+ie_tree.add_child("French","Middle French", date_range=[1600, current_year])
+ie_tree.add_child("Anglo-Norman","Old French", date_range=[1066, 1400])
+ie_tree.add_child("Old Occitan","Latin", date_range=[700, 1400])
+ie_tree.add_child("Occitan","Old Occitan", date_range=[1400, current_year])
+ie_tree.add_child("Catalan","Latin", date_range=[700, current_year])
+ie_tree.add_child("Spanish","Latin", date_range=[700, current_year])
+ie_tree.add_child("Portuguese","Latin", date_range=[700, current_year])
+ie_tree.add_child("Italian","Latin", date_range=[700, current_year])
+
+ie_tree.add_child("Oscan", "Proto-Indo-European", date_range=[-500, 100])
+
+ie_tree.add_child("Proto-Celtic", "Proto-Indo-European", date_range=[-1300, -800])
+ie_tree.add_child("Transalpine Gaulish","Proto-Celtic", date_range=[-600, 600])
+ie_tree.add_child("Early Irish","Proto-Celtic", date_range=[600, 900])
+ie_tree.add_child("Irish","Early Irish", date_range=[1200, current_year])
+ie_tree.add_child("Welsh","Proto-Celtic", date_range=[1500, current_year])
+
+ie_tree.add_child("Eastern Armenian","Proto-Indo-European", date_range=[1700, current_year])
+
+ie_tree.add_child("Tokharian A","Proto-Indo-European", date_range=[400, 800])
+ie_tree.add_child("Tokharian B","Proto-Indo-European", date_range=[400, 800])
+
+ie_tree.add_child("Early Runic","Proto-Germanic", date_range=[200, 800])
+
+ie_tree.add_child("Mycenaean Greek","Proto-Indo-European", date_range=[-1600, -1100])
+
+ie_tree.add_child("Proto-Balto-Slavic","Proto-Indo-European", date_range=[-3500, -2500])
+ie_tree.add_child("Proto-Baltic","Proto-Balto-Slavic", date_range=[-3000, -500])
+ie_tree.add_child("Old Prussian","Proto-Baltic", date_range=[-500, 1700])
+ie_tree.add_child("Lithuanian","Proto-Baltic", date_range=[1800, current_year])
+
+ie_tree.add_child("Proto-Slavic","Proto-Balto-Slavic", date_range=[-2000, 600])
+ie_tree.add_child("Old Church Slavonic","Proto-Slavic", date_range=[800, 1100])
+
+#ie_tree.print_tree(0, [False], force_show=True)
+
+language_words_pairs = []
+
+#parse lines according to
+#LANGUAGE_NAME - WORD_INFO - LANGUAGE NAME- WORD_INFO
+
+print("Parsing dictionary entry... ", end="")
+
+language_vs_word_positions = ""
+x = 0
+
+#locate language-words pairs
+
+while (x < len(item)):
+    lang_found = False
     
-    print("Origin: V\n"+ origin +"\netymology: V\n"+item+"-----\n"+"tree_type: "+this_tree_type)
-
-    ie_tree = Tree("Proto-Indo-European",coords=[49.4, 31.2], tree_type="inherited", date_range=[-4500, -2500])
-    ie_tree.add_child("Proto-Germanic", "Proto-Indo-European", date_range=[-2500, 500])
-
-    ie_tree.add_child("English", "Proto-Germanic", date_range=[500, 2000])
-    ie_tree.add_child("Old Frisian", "Proto-Germanic", date_range=[500, 1500])
-    ie_tree.add_child("Western Frisian", "Old Frisian", date_range=[1500, 2000])
-    ie_tree.add_child("Old Dutch", "Proto-Germanic", date_range=[500, 1150])
-    ie_tree.add_child("Middle Dutch", "Old Dutch", date_range=[1150, 1500])
-    ie_tree.add_child("Dutch", "Middle Dutch", date_range=[1500, 2000])
-    ie_tree.add_child("Old Saxon", "Proto-Germanic", date_range=[500, 1200])
-    ie_tree.add_child("Middle Low German", "Old Saxon", date_range=[1200, 1500])
-    ie_tree.add_child("Old High German","Proto-Germanic", date_range=[500, 1050])
-    ie_tree.add_child("Middle High German", "Old High German", date_range=[1050, 1350])
-    ie_tree.add_child("German", "Middle High German", date_range=[1350, 2000])
-
-    ie_tree.add_child("Proto-Norse", "Proto-Germanic", date_range=[200, 800])
-    ie_tree.add_child("Old Norse", "Proto-Norse", date_range=[800, 1400])
-    ie_tree.add_child("Old Icelandic","Old Norse", date_range=[800, 1400])
-    ie_tree.add_child("Old Norn", "Old Norse", date_range=[1400, 1850])
-    ie_tree.add_child("Old Swedish", "Old Norse", date_range=[1225, 1526])
-    ie_tree.add_child("Swedish", "Old Swedish", date_range=[1526, 2000])
-    ie_tree.add_child("Old Danish", "Old Norse", date_range=[800, 1525])
-    ie_tree.add_child("Danish", "Old Danish", date_range=[1525,2000])
-
-    ie_tree.add_child("Gothic", "Proto-Germanic", date_range=[200, 1000])
-
-    ie_tree.add_child("Proto-Indo-Iranian", "Proto-Indo-European", date_range=[-2500, -2000])
-    ie_tree.add_child("Sanskrit", "Proto-Indo-Iranian", date_range=[-1500, 1350])
-    ie_tree.add_child("Avestan", "Proto-Indo-Iranian", date_range=[-2000, -1000])
-
-    ie_tree.add_child("Ancient Greek", "Proto-Indo-European", date_range=[-1500, -300])
-
-    ie_tree.add_child("Latin", "Proto-Indo-European", date_range=[-700, 700])
-    ie_tree.add_child("Old French","Latin", date_range=[700, 1300])
-    ie_tree.add_child("Middle French","Old French", date_range=[1300, 1600])
-    ie_tree.add_child("French","Middle French", date_range=[1600, 2000])
-    ie_tree.add_child("Anglo-Norman","Old French", date_range=[1066, 1400])
-    ie_tree.add_child("Old Occitan","Latin", date_range=[700, 1400])
-    ie_tree.add_child("Occitan","Old Occitan", date_range=[1400, 2000])
-    ie_tree.add_child("Catalan","Latin", date_range=[700, 2000])
-    ie_tree.add_child("Spanish","Latin", date_range=[700, 2000])
-    ie_tree.add_child("Portuguese","Latin", date_range=[700, 2000])
-    ie_tree.add_child("Italian","Latin", date_range=[700, 2000])
-
-    ie_tree.add_child("Oscan", "Proto-Indo-European", date_range=[-500, 100])
-
-    ie_tree.add_child("Proto-Celtic", "Proto-Indo-European", date_range=[-1300, -800])
-    ie_tree.add_child("Transalpine Gaulish","Proto-Celtic", date_range=[-600, 600])
-    ie_tree.add_child("Early Irish","Proto-Celtic", date_range=[600, 900])
-    ie_tree.add_child("Irish","Early Irish", date_range=[1200, 2000])
-    ie_tree.add_child("Welsh","Proto-Celtic", date_range=[1500, 2000])
-
-    ie_tree.add_child("Eastern Armenian","Proto-Indo-European", date_range=[1700, 2000])
-
-    ie_tree.add_child("Tokharian A","Proto-Indo-European", date_range=[400, 800])
-    ie_tree.add_child("Tokharian B","Proto-Indo-European", date_range=[400, 800])
-
-    ie_tree.add_child("Early Runic","Proto-Germanic", date_range=[200, 800])
-
-    ie_tree.add_child("Mycenaean Greek","Proto-Indo-European", date_range=[-1600, -1100])
-
-    ie_tree.add_child("Proto-Balto-Slavic","Proto-Indo-European", date_range=[-3500, -2500])
-    ie_tree.add_child("Proto-Baltic","Proto-Balto-Slavic", date_range=[-3000, -500])
-    ie_tree.add_child("Old Prussian","Proto-Baltic", date_range=[-500, 1700])
-    ie_tree.add_child("Lithuanian","Proto-Baltic", date_range=[1800, 2000])
-
-    ie_tree.add_child("Proto-Slavic","Proto-Balto-Slavic", date_range=[-2000, 600])
-    ie_tree.add_child("Old Church Slavonic","Proto-Slavic", date_range=[800, 1100])
-
-    #ie_tree.print_tree(0, [False], force_show=True)
-
-    language_words_pairs = []
-
-    #parse lines according to
-    #LANGUAGE_NAME - WORD_INFO - LANGUAGE NAME- WORD_INFO
-
-
-    language_vs_word_positions = ""
-    x = 0
-
-    #locate language-words pairs
-
-    while (x < len(item)):
-        lang_found = False
-        
-        for language in languages_list:
-            #print("{0}, {1}\t".format(x, language),end="")
-            #if item.find(language) == x:
-            indices = [index for index in range(len(item)) if item.startswith(language, index)]
-            #print("Found at indices {0}".format(str(indices)))
-            if x in indices:
+    for language in languages_list:
+        #print("{0}, {1}\t".format(x, language),end="")
+        #if item.find(language) == x:
+        indices = [index for index in range(len(item)) if item.startswith(language, index)]
+        #print("Found at indices {0}".format(str(indices)))
+        if x in indices:
+            if debug:
                 print("MATCH FOUND:\t",end="")
                 print("{0}, {1}\t".format(x, language),end="")
                 print("Found at indices {0}".format(str(indices)))
-            
-                lang_found = True
-                lang_length = len(language)
-
-                for j in range(lang_length):
-                    language_vs_word_positions += "l"
-                    x += 1
-            #else:
-                #print("item: \n {0} \n language: {1}\nx: {2}\nitem.find(language): {3}".format(item,language,x,item.find(language)))
-        if (not lang_found):
-            language_vs_word_positions += "w"
-            x += 1
-
-    #break up each language-words pair
-
-    j = 0
-
-    punctuation = "<>().:;"
-    while (j < len(item)):
-        #print("j = {0}".format(j))
-        current_language = ""
-        current_words = ""
-
-        while (language_vs_word_positions[j] == "l"):
-            if (item[j] not in punctuation): current_language += item[j]
-            j += 1
-
-        while (j < len(item) and language_vs_word_positions[j] == "w"):
-            if (item[j] not in punctuation): current_words += item[j]
-            j += 1
-
-        key_words_that_remove = ["now chiefly","and further ", "plural",\
-                                 "inflected","now usually","in an isolated",\
-                                "apparently ","also ","and also ",\
-                                "although ", "10th ", "11th ", "12th ",\
-                                "13th ", "14th ", "15th ", "16th ",
-                                "17th ", "18th ", "19th ", "20th ",\
-                                "strong and ","or its ", "only attested",\
-                                "base ","alive","weak", "further etymology ",\
-                                "Further etymology ", "probably ",\
-                                "‘to", "base as ", "definite form ",\
-                                "to ", "impersonal ", "organized"]
         
-        min_location = 10000
-        for key_word in key_words_that_remove:
-            #print("{0}:\t{1}".format(current_words, key_word))
-            location = current_words.find(key_word)
-            if location > -1 and location < min_location:
-                #print("FOUND")
-                min_location = location
-        
-        if min_location < 10000:
-            current_words = current_words[0:min_location]
+            lang_found = True
+            lang_length = len(language)
 
-        current_language = base_form(current_language.strip())
-        current_words = current_words.strip()
-        
-        if len(current_words) > 0 and current_words[-1] == ",": current_words = current_words[:-1]
+            for j in range(lang_length):
+                language_vs_word_positions += "l"
+                x += 1
+        #else:
+            #print("item: \n {0} \n language: {1}\nx: {2}\nitem.find(language): {3}".format(item,language,x,item.find(language)))
+    if (not lang_found):
+        language_vs_word_positions += "w"
+        x += 1
+
+#break up each language-words pair
+
+j = 0
+
+punctuation = "<>().:;"
+while (j < len(item)):
+    #print("j = {0}".format(j))
+    current_language = ""
+    current_words = ""
+
+    while (language_vs_word_positions[j] == "l"):
+        if (item[j] not in punctuation): current_language += item[j]
+        j += 1
+
+    while (j < len(item) and language_vs_word_positions[j] == "w"):
+        if (item[j] not in punctuation): current_words += item[j]
+        j += 1
+
+    key_words_that_remove = ["now chiefly","and further ", "plural",\
+                            "inflected","now usually","in an isolated",\
+                            "apparently ","also ","and also ",\
+                            "although ", "10th ", "11th ", "12th ",\
+                            "13th ", "14th ", "15th ", "16th ",
+                            "17th ", "18th ", "19th ", "20th ",\
+                            "strong and ","or its ", "only attested",\
+                            "base ","alive","weak", "further etymology ",\
+                            "Further etymology ", "probably ",\
+                            "‘to", "base as ", "definite form ",\
+                            "to ", "impersonal ", "organized"]
+    
+    min_location = 10000
+    for key_word in key_words_that_remove:
+        #print("{0}:\t{1}".format(current_words, key_word))
+        location = current_words.find(key_word)
+        if location > -1 and location < min_location:
+            #print("FOUND")
+            min_location = location
+    
+    if min_location < 10000:
+        current_words = current_words[0:min_location]
+
+    current_language = base_form(current_language.strip())
+    current_words = current_words.strip()
+    
+    if len(current_words) > 0 and current_words[-1] == ",": current_words = current_words[:-1]
 
 
-        #print("current_language, current_words = " + current_language + " | " + current_words)
-        language_already_in_pairs = False
-        for [x,y] in language_words_pairs:
-            if x == current_language:
-                language_already_in_pairs = True
-        if not language_already_in_pairs:
-            language_words_pairs.append([current_language,current_words])
+    #print("current_language, current_words = " + current_language + " | " + current_words)
+    language_already_in_pairs = False
+    for [x,y] in language_words_pairs:
+        if x == current_language:
+            language_already_in_pairs = True
+    if not language_already_in_pairs:
+        language_words_pairs.append([current_language,current_words])
 
-    #add the original english word to the tree
-    language_words_pairs.append(["English", chosen_word])
+#add the original english word to the tree
+language_words_pairs.append(["English", chosen_word])
 
-    language_words_pairs = [[x.strip(),y.strip()] for [x,y] in language_words_pairs]
-    language_words_pairs = [[x,y] for [x,y] in language_words_pairs if x != "" and y != ""]
+language_words_pairs = [[x.strip(),y.strip()] for [x,y] in language_words_pairs]
+language_words_pairs = [[x,y] for [x,y] in language_words_pairs if x != "" and y != ""]
 
-    print(str(language_words_pairs))
+if debug: print(str(language_words_pairs))
 
-    #add words to language tree
+#add words to language tree
 
-    first_word = True
-    for [language_name, words] in language_words_pairs:
-        #print("-----\nadding to tree {0}, {1}, {2}\n-----".format(language_name, words,first_word))
-        f = first_word
-        ie_tree.add_word(language_name, words, first_word=f)
+first_word = True
+for [language_name, words] in language_words_pairs:
+    #print("-----\nadding to tree {0}, {1}, {2}\n-----".format(language_name, words,first_word))
+    f = first_word
+    ie_tree.add_word(language_name, words, first_word=f)
 
-        #add english under the most recent source language
-        if f and this_tree_type == "borrowing":
-                ie_tree.remove_child("English")
-                ie_tree.add_child("English", language_name, date_range = [500, 2000])
-                ie_tree.add_word("English", chosen_word, first_word = False)
-        elif f:
-            ie_tree.add_word("English", chosen_word)
-        first_word = False
+    #add english under the most recent source language
+    if f and this_tree_type == "borrowing":
+            ie_tree.remove_child("English")
+            ie_tree.add_child("English", language_name, date_range = [500, current_year])
+            ie_tree.add_word("English", chosen_word, first_word = False)
+    elif f:
+        ie_tree.add_word("English", chosen_word)
+    first_word = False
 
-    print ("\n#####################################\n")
+if debug: print ("\n#####################################\n")
 
-    ie_tree.print_tree(force_show=True)
+if print_tree: ie_tree.print_tree(force_show=False)#True)
 
-    #testing get_language()
+#testing get_language()
 
-    french = ie_tree.get_language("French")
-    french_parent = ie_tree.get_language(french.parent_language)
-    print("French = {0}, French.parent = {1}".format(french.language, french_parent.language))
+french = ie_tree.get_language("French")
+french_parent = ie_tree.get_language(french.parent_language)
+if debug: print("French = {0}, French.parent = {1}".format(french.language, french_parent.language))
 
-    #adding "hidden" parent languages to languages that have words
+#adding "hidden" parent languages to languages that have words
 
-    language_queue = [ie_tree]
+language_queue = [ie_tree]
 
-    while len(language_queue) > 0:
+while len(language_queue) > 0:
+    if debug:
         for x in language_queue:
             print("{0}, {1}".format(x.language, x.word),end="\t")
         print("\n")
-        if language_queue[0].has_descendant_words():
-            if language_queue[0].word == "":
-                print("adding {0}".format(language_queue[0].language))
-                language_words_pairs.append((base_form(language_queue[0].language), "-"))
-            
-            for child in language_queue[0].get_children():
-                print("appending {0}".format(child.language))
-                language_queue.append(child)
-
-        language_queue.pop(0)
+    if language_queue[0].has_descendant_words():
+        if language_queue[0].word == "":
+            if debug: print("adding {0}".format(language_queue[0].language))
+            language_words_pairs.append((base_form(language_queue[0].language), "-"))
         
+        for child in language_queue[0].get_children():
+            if debug: print("appending {0}".format(child.language))
+            language_queue.append(child)
 
-    #displaying map
+    language_queue.pop(0)
+    
 
-    lang_names = list((base_form(x[0]) for x  in language_words_pairs))
-    lang_words = list((x[1] for x  in language_words_pairs))
+#displaying map
 
+lang_names = list((base_form(x[0]) for x  in language_words_pairs))
+lang_words = list((x[1] for x  in language_words_pairs))
+
+if debug:
     print("~~~~~")
     for x in lang_names:
         print(str(x), end=", ")
@@ -540,129 +563,105 @@ while(True):
 
     print("\n~~~~~\n")
 
-    #create base folium map
-    m = folium.Map((0, 0), zoom_start=2)
 
-    coordinates = list(map(lingtypology.glottolog.get_coordinates, lang_names))
+print("Creating map... ")
     
-    #print language coordinates solely from glottolog
+#create base folium map
+m = folium.Map((0, 0), zoom_start=2)
 
-    for i in range(len(coordinates)):
-        print("## {0} {1}".format(lang_names[i], coordinates[i]))
+coordinates = list(map(lingtypology.glottolog.get_coordinates, lang_names))
 
-    #adding lines between points on map
+#print language coordinates solely from glottolog
 
-    print("lang_names = {0}".format(lang_names))
-    for first_lang_index in range(len(lang_names)):
+for i in range(len(coordinates)):
+    if debug: print("## {0} {1}".format(lang_names[i], coordinates[i]))
 
+#adding lines between points on map
 
-        #print("##########################################################\n##########################################################\n\
-              ##########################################################\nL1 = {0}\n~~~~~~~~~~~~~~~~~~~~~~~\n".format(lang_names[first_lang_index]))
-        
-        if not ((coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
-           (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90):
-            coordinates[first_lang_index] = extra_coords[lang_names[first_lang_index]]
-            #add point on map
-
-        text_colour = "#c00"
-        text_style = "font-style: italic;"
-
-        if ie_tree.get_language(lang_names[first_lang_index]) != 0 and current(chosen_date, ie_tree.get_language(lang_names[first_lang_index]).date_range):
-            text_colour = "#08c"
-            text_style = "font-weight: bold;"
-        elif ie_tree.get_language(lang_names[first_lang_index]) != 0 and future(chosen_date, ie_tree.get_language(lang_names[first_lang_index]).date_range):
-            text_colour = "#888"
-            text_style = ""
-
-        folium.Marker((coordinates[first_lang_index][0], coordinates[first_lang_index][1]), \
-                        popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index]), \
-                        icon=folium.DivIcon(\
-            html=f"""<div style="font-family: sans-serif; font-size: 12pt; {text_style}color: {text_colour}; width: 200px">{lang_words[first_lang_index]}</div>""")).add_to(m)
-
-        for second_lang_index in range(len(lang_names)):
-            #print("L2 = {0}".format(lang_names[second_lang_index]))
-
-            if not ((coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
-            (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90):
-                coordinates[second_lang_index] = extra_coords[lang_names[second_lang_index]]
+if debug: print("lang_names = {0}".format(lang_names))
+for first_lang_index in range(len(lang_names)):
 
 
-            #    print("~~~~~ {0} = {1} ~~~~~".format(ie_tree.get_language(lang_names[first_lang_index]), lang_names[second_lang_index]))
-            if ie_tree.get_language(base_form(lang_names[second_lang_index])) != 0 and \
-                 ie_tree.get_language(base_form(lang_names[second_lang_index])).parent_language == lang_names[first_lang_index]:
-                #print("is parent {0} -> {1}".format(lang_names[first_lang_index], lang_names[second_lang_index]))
-                if (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
-                    (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90 and \
-                    (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
-                    (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90:
+    #print("##########################################################\n##########################################################\n\
+        ##########################################################\nL1 = {0}\n~~~~~~~~~~~~~~~~~~~~~~~\n".format(lang_names[first_lang_index]))
+    
+    if not ((coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
+    (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90):
+        coordinates[first_lang_index] = extra_coords[lang_names[first_lang_index]]
+        #add point on map
 
-                    """print("is right coords")
-                    print("\t\t\tcoords1 = {0},{1}, coords2 = {2},{3}, li1 = {4}, li2 = {5}".format(coordinates[first_lang_index][0],\
-                                                                              coordinates[first_lang_index][1],\
-                                                                              coordinates[second_lang_index][0],\
-                                                                              coordinates[second_lang_index][1],\
-                                                                              first_lang_index, second_lang_index))"""
-                    trail_coordinates = []
+    text_colour = "#c00"
+    text_style = "font-style: italic;"
 
-                    trail_coordinates.append((coordinates[first_lang_index][0], coordinates[first_lang_index][1]))
-                    trail_coordinates.append((coordinates[second_lang_index][0], coordinates[second_lang_index][1]))
-                    
-                    arrow_colour = "#c88"
+    if ie_tree.get_language(lang_names[first_lang_index]) != 0 and current(chosen_year, ie_tree.get_language(lang_names[first_lang_index]).date_range):
+        text_colour = "#08c"
+        text_style = "font-weight: bold;"
+    elif ie_tree.get_language(lang_names[first_lang_index]) != 0 and future(chosen_year, ie_tree.get_language(lang_names[first_lang_index]).date_range):
+        text_colour = "#888"
+        text_style = ""
 
-                    if ie_tree.get_language(lang_names[first_lang_index]) != 0 and current(chosen_date, ie_tree.get_language(lang_names[first_lang_index]).date_range) and ie_tree.get_language(lang_names[second_lang_index]) != 0 and current(chosen_date, ie_tree.get_language(lang_names[second_lang_index]).date_range):
-                        arrow_colour = "#88f"
-                    elif ie_tree.get_language(lang_names[second_lang_index]) != 0 and future(chosen_date, ie_tree.get_language(lang_names[second_lang_index]).date_range):
-                        arrow_colour = "#ccc"
+    folium.Marker((coordinates[first_lang_index][0], coordinates[first_lang_index][1]), \
+                    popup=(lang_names[first_lang_index] + ": " + lang_words[first_lang_index]), \
+                    icon=folium.DivIcon(\
+        html=f"""<div style="font-family: sans-serif; font-size: 12pt; {text_style}color: {text_colour}; width: 200px">{lang_words[first_lang_index]}</div>""")).add_to(m)
 
-                    #print("\t\t\ttrail_coordinates is now {0}, coordinates = {1}".format(trail_coordinates, list(coordinates)))
-                    folium.PolyLine(arrow_from_coords(trail_coordinates, [lang_names[first_lang_index], lang_names[second_lang_index]]), tooltip="Connections between languages", color=arrow_colour).add_to(m)
-                else:
-                    print("({0}), ({1}))".format(str(coordinates[first_lang_index]), str(coordinates[second_lang_index])))
+    for second_lang_index in range(len(lang_names)):
+        #print("L2 = {0}".format(lang_names[second_lang_index]))
 
+        if not ((coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
+        (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90):
+            coordinates[second_lang_index] = extra_coords[lang_names[second_lang_index]]
+
+
+        #    print("~~~~~ {0} = {1} ~~~~~".format(ie_tree.get_language(lang_names[first_lang_index]), lang_names[second_lang_index]))
+        if ie_tree.get_language(base_form(lang_names[second_lang_index])) != 0 and \
+            ie_tree.get_language(base_form(lang_names[second_lang_index])).parent_language == lang_names[first_lang_index]:
+            #print("is parent {0} -> {1}".format(lang_names[first_lang_index], lang_names[second_lang_index]))
+            if (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][0] > -180 and \
+                (coordinates[first_lang_index] is not None) and coordinates[first_lang_index][1] > -90 and \
+                (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][0] > -180 and \
+                (coordinates[second_lang_index] is not None) and coordinates[second_lang_index][1] > -90:
+
+                """print("is right coords")
+                print("\t\t\tcoords1 = {0},{1}, coords2 = {2},{3}, li1 = {4}, li2 = {5}".format(coordinates[first_lang_index][0],\
+                                                                        coordinates[first_lang_index][1],\
+                                                                        coordinates[second_lang_index][0],\
+                                                                        coordinates[second_lang_index][1],\
+                                                                        first_lang_index, second_lang_index))"""
+                trail_coordinates = []
+
+                trail_coordinates.append((coordinates[first_lang_index][0], coordinates[first_lang_index][1]))
+                trail_coordinates.append((coordinates[second_lang_index][0], coordinates[second_lang_index][1]))
+                
+                arrow_colour = "#c88"
+
+                if ie_tree.get_language(lang_names[first_lang_index]) != 0 and current(chosen_year, ie_tree.get_language(lang_names[first_lang_index]).date_range) and ie_tree.get_language(lang_names[second_lang_index]) != 0 and current(chosen_year, ie_tree.get_language(lang_names[second_lang_index]).date_range):
+                    arrow_colour = "#88f"
+                elif ie_tree.get_language(lang_names[second_lang_index]) != 0 and future(chosen_year, ie_tree.get_language(lang_names[second_lang_index]).date_range):
+                    arrow_colour = "#ccc"
+
+                #print("\t\t\ttrail_coordinates is now {0}, coordinates = {1}".format(trail_coordinates, list(coordinates)))
+                folium.PolyLine(arrow_from_coords(trail_coordinates, [lang_names[first_lang_index], lang_names[second_lang_index]]), tooltip="Connections between languages", color=arrow_colour).add_to(m)
             else:
-                pass#print("\n-----\nL1: {0}".format(lang_names[first_lang_index]), end="")
-                #print(", L2: {0}, ".format(lang_names[second_lang_index]), end="")
-                #print(", not parent, {0}\n--------------------------------------------------------\n".format( ie_tree.get_language(lang_names[second_lang_index])))
+                print("({0}), ({1}))".format(str(coordinates[first_lang_index]), str(coordinates[second_lang_index])))
 
-    #print full list of language coordinates
- 
+        else:
+            pass#print("\n-----\nL1: {0}".format(lang_names[first_lang_index]), end="")
+            #print(", L2: {0}, ".format(lang_names[second_lang_index]), end="")
+            #print(", not parent, {0}\n--------------------------------------------------------\n".format( ie_tree.get_language(lang_names[second_lang_index])))
+
+#print full list of language coordinates
+
+if debug:
     for i in range(len(coordinates)):
         print("## {0} {1}".format(lang_names[i], coordinates[i]))
 
-    print("lang_names length = {0}, lang_words length = {1}".format(len(lang_names), len(lang_words)))
+if debug: print("lang_names length = {0}, lang_words length = {1}".format(len(lang_names), len(lang_words)))
 
-    #add legend for word and year
-    folium.Marker((55, -45), icon=folium.DivIcon(\
-    html=f"""<div style="font-family: sans-serif; font-size: 32pt; color: #000; width: 500px">Cognates of &quot;{chosen_word}&quot; in {year(chosen_date)}</div>""")).add_to(m)
-    m.save("language_tree.html")
+#add legend for word and year
+folium.Marker((55, -45), icon=folium.DivIcon(\
+html=f"""<div style="font-family: sans-serif; font-size: 32pt; color: #000; width: 500px">Cognates of &quot;{chosen_word}&quot; in {year(chosen_year)}</div>""")).add_to(m)
 
-    # #create lingtypology map
-    # m = lingtypology.LingMap(lang_names)
-    # m.add_popups(lang_words)
-    
-    # m.base_map = folium_map
-    # m.create_map()
-    # m.save("language_tree.html")
-
-"""
-Etymology: Cognate with Old Frisian fader , feder (West Frisian
-faar ), Old Dutch fadar , fader (Middle Dutch v ̄ader , Dutch vader
-), Old Saxon fadar , fader (Middle Low German v ̄ader ), Old High
-German fater (Middle High German vater , German Vater ), early
-Scandinavian (runic: Sweden) faþiR , Old Icelandic faðir , Norn
-(Orkney) fa , (Shetland) fy (definite form fyrin ), Old Swedish faþir
-(Swedish fader , (now usually) far ), Old Danish fathær (Danish
-fader , (now usually) far ), Gothic fadar (in an isolated attestation
-in Galatians 4:6; the ordinary word is atta : see dad n.1),
-< the same Indo-European base as Sanskrit pitr. , Old Avestan ptar
-(Younger Avestan pitar ), ancient Greek , classical Latin pater ( >
-Old French paire , pedre , Old French, Middle French pere , French
-père , Old Occitan, Occitan paire , Catalan pare , Spanish padre ,
-Portuguese pãe , Italian padre ), Oscan patir , Gaulish ater- , atr- ,
-Early Irish athair , Armenian hayr , Tocharian A p ̄acar , Tocharian
-B p ̄acer ,
-probably originally a derivative (with suffixation) of a nursery word
-of the pa type (see papa n.2). A similar suffix is found in other
-Indo-European relationship terms (compare mother n.1, brother n.,
-daughter n.), although these suffixes may ultimately be of different
-origin."""
+output_file_name = "output\\{0}_{1}.html".format(chosen_word, year(chosen_year).lower().replace(" ", "_"))
+print("Saving to {0}".format(output_file_name))
+m.save(output_file_name)
